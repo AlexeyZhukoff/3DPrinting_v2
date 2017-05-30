@@ -1,21 +1,21 @@
 $(document).ready(function () {
-//    loadUsers();
+    loadUsers();
 //    loadMaterials();
 
-//    //#region HTML Export
-//    function loadUsers() {
-//        $.get('sclapi.php', { type: 'getUsersHtml' }, onAjaxSuccess);
-//        function onAjaxSuccess(data) {
-//            document.getElementById("usersList").innerHTML = data;
-//        }
-//    }
+    //#region HTML Export
+    function loadUsers() {
+        $.get('sclapi.php', { type: 'getUsersHtml' }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("usersList").innerHTML = data;
+        }
+    }
 //    function loadMaterials() {
 //        $.get('sclapi.php', { type: 'getMaterialsHtml' }, onAjaxSuccess);
 //        function onAjaxSuccess(data) {
 //            document.getElementById("materials").innerHTML = data;
 //        }
 //    }
-//    //#endregion HTML Export
+    //#endregion HTML Export
 
 //    //#region UsersList
 //    $('body').on('click', '.addUserButton', function () {
