@@ -127,9 +127,9 @@ $(document).ready(function () {
     //    //#endregion UsersList
 
     //    //#region MaterialsList
-    //    $('body').on('click', '.addMaterialButton', function () {
-    //        ShowNewMaterialDialog();
-    //    })
+        $('body').on('click', '.addMaterialButton', function () {
+            ShowNewMaterialDialog();
+        })
     //    $('body').on('click', '.createMButton', function () {
     //        var materialname = $('#newMaterialName').val();
     //        var materialprice = $('#newMaterialPrice').val();
@@ -161,9 +161,9 @@ $(document).ready(function () {
     //        }
     //        loadMaterials();
     //    })
-    //    $('body').on('click', '.cancelMButton', function () {
-    //        HideNewMaterialDialog();
-    //    })
+        $('body').on('click', '.cancelMButton', function () {
+            HideNewMaterialDialog();
+        })
     //    $('body').on('change', '.changeMaterialsVal', function () {
     //        row = $(this).data('row');
     //        col = $(this).data('column');
@@ -196,22 +196,22 @@ $(document).ready(function () {
     //            }
     //        }
     //    })
-    //    $('body').on('blur', '.changeMaterialsVal', function () {
-    //        var oldvalue = $(this).attr('oldvalue');
-    //        var td = $(this).parent();
-    //        $(this).remove();
-    //        td.text(oldvalue);
-    //    })
-    //    $('#newMaterialName').keyup(function (e) {
-    //        if (e.keyCode == 13) {
-    //            $('.createMButton').click();
-    //        }
-    //    })
-    //    $('#newMaterialPrice').keyup(function (e) {
-    //        if (e.keyCode == 13) {
-    //            $('.createMButton').click();
-    //        }
-    //    })
+        $('body').on('blur', '.changeMaterialsVal', function () {
+            var oldvalue = $(this).attr('oldvalue');
+            var td = $(this).parent();
+            $(this).remove();
+            td.text(oldvalue);
+        })
+        $('#newMaterialName').keyup(function (e) {
+            if (e.keyCode == 13) {
+                $('.createMButton').click();
+            }
+        })
+        $('#newMaterialPrice').keyup(function (e) {
+            if (e.keyCode == 13) {
+                $('.createMButton').click();
+            }
+        })
     //    function MaterialsTableClick(td, row, col) {
     //        CreateInnerInput(td, "changeMaterialsVal", row, col);
     //        HideNewMaterialDialog();
@@ -251,36 +251,36 @@ $(document).ready(function () {
     //        }
     //        loadMaterials();
     //    }
-    //    function ShowNewMaterialDialog() {
-    //        $('#newMaterialDialog').attr("style", "");
-    //        $('#newMaterialName').val('');
-    //        $('#newMaterialDensity').val('');
-    //        $('#newMaterialDiameter').val('');
-    //        $('#newMaterialPrice').val('');
-    //        $('.addMaterialButton').attr("style", "display: none");
-    //    }
-    //    function HideNewMaterialDialog() {
-    //        $('#newMaterialDialog').attr("style", "display: none");
-    //        $('.addMaterialButton').attr("style", "");
-    //    }
-    //    function HaveMaterialName(materialname) {
-    //        var result = false;
-    //        $('#materials').find('td').each(function () {
-    //            var col = $(this).parent().children().index($(this));
-    //            var row = $(this).parent().parent().children().index($(this).parent());
-    //            if (col == 0 && row > 1 && $(this).text() == materialname) {
-    //                result = true;
-    //                return false;
-    //            }
-    //        });
-    //        return result;
-    //    }
-    //    //#endregion MaterialsList
+        function ShowNewMaterialDialog() {
+            $('#newMaterialDialog').attr("style", "");
+            $('#newMaterialName').val('');
+            $('#newMaterialDensity').val('');
+            $('#newMaterialDiameter').val('');
+            $('#newMaterialPrice').val('');
+            $('.addMaterialButton').attr("style", "display: none");
+        }
+        function HideNewMaterialDialog() {
+            $('#newMaterialDialog').attr("style", "display: none");
+            $('.addMaterialButton').attr("style", "");
+        }
+        function HaveMaterialName(materialname) {
+            var result = false;
+            $('#materials').find('td').each(function () {
+                var col = $(this).parent().children().index($(this));
+                var row = $(this).parent().parent().children().index($(this).parent());
+                if (col == 0 && row > 1 && $(this).text() == materialname) {
+                    result = true;
+                    return false;
+                }
+            });
+            return result;
+        }
+        //#endregion MaterialsList
 
     //#region Interface
     $('.tabs .tab-links a').on('click', function (e) {
         //HideNewUserDialog();
-        //HideNewMaterialDialog();
+        HideNewMaterialDialog();
         var currentAttrValue = $(this).attr('href');
         $('.tabs ' + currentAttrValue).show().siblings().hide();
         $(this).parent('li').addClass('active').siblings().removeClass('active');
