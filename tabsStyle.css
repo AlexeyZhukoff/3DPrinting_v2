@@ -44,8 +44,12 @@ ul.tab-links {
         color:#4c4c4c;
         border-bottom-color: #fff;
     }
-    a.usersA {
+    a.printsA {
         border-radius: 3px 0px 0px 0px;
+        border-right-style: none;
+    }
+    a.usersA {
+        border-radius: 0px 0px 0px 0px;
         border-right-style: none;
     }
     a.materialsA {
