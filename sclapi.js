@@ -1,6 +1,6 @@
 $(document).ready(function () {
     loadUsers();
-//    loadMaterials();
+    loadMaterials();
 
     //#region HTML Export
     function loadUsers() {
@@ -9,12 +9,12 @@ $(document).ready(function () {
             document.getElementById("usersList").innerHTML = data;
         }
     }
-//    function loadMaterials() {
-//        $.get('sclapi.php', { type: 'getMaterialsHtml' }, onAjaxSuccess);
-//        function onAjaxSuccess(data) {
-//            document.getElementById("materials").innerHTML = data;
-//        }
-//    }
+    function loadMaterials() {
+        $.get('sclapi.php', { type: 'getMaterialsHtml' }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("materials").innerHTML = data;
+        }
+    }
     //#endregion HTML Export
 
 //    //#region UsersList

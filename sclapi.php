@@ -4,8 +4,8 @@
     
     if($type == Commands::GetUsersHtml)
          getUsersHtml();
-    //if($type == Commands::GetMaterialsHtml)
-    //    getHtml(SheetNames::Materials, 3);
+    if($type == Commands::GetMaterialsHtml)
+        getHtml(SheetNames::Materials);
     //if($type == Commands::CreateUser)
     //    createUser();
     //if($type == Commands::RemoveUser)
@@ -42,27 +42,19 @@
         
         echo $request['data'];
     }
-    //function getHtml($sheetName, $columnLimit){
-    //    $filename = PrivateConst::File_Name;
-    //    $id = loadDocument($filename);
+    function getHtml($sheetName){
+        $filename = PrivateConst::File_Name;
+        $id = loadDocument($filename);
 
-    //    $params = array(
-    //        'id' => $id,
-    //        'sheetname' => $sheetName,
-    //    );
-    //    if($columnLimit > 0){
-    //        $params['endcolumnindex'] = $columnLimit;
-    //        //$params = array(
-    //        //    'id' => $id,
-    //        //    'sheetname' => $sheetName,
-    //        //    'endcolumnindex' => $columnLimit,
-    //        //);
-    //    }
-    //    $request = get($params, '/exporttohtml');
-    //    closeDocument($filename, $id);
-    //    
-    //    echo $request['data'];
-    //}
+        $params = array(
+            'id' => $id,
+            'sheetname' => $sheetName,
+        );
+        $request = get($params, '/exporttohtml');
+        closeDocument($filename, $id);
+        
+        echo $request['data'];
+    }
     //function createUser(){
     //    $filename = PrivateConst::File_Name;
     //    $userName = $_GET[Names::NewUserName];
