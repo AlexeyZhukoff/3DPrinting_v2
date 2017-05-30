@@ -24,7 +24,7 @@ $(document).ready(function () {
     }
     //#endregion HTML Export
 
-    //    //#region UsersList
+    //#region UsersList
     //    $('body').on('click', '.addUserButton', function () {
     //        ShowNewUserDialog();
     //    })
@@ -286,28 +286,28 @@ $(document).ready(function () {
         $(this).parent('li').addClass('active').siblings().removeClass('active');
         e.preventDefault();
     });
-    //    $('body').on('click', 'td', function () {
-    //        if ($(this).children().length > 0)
-    //            return;
-    //        var parentDiv = $(this).closest('div');
-    //        var col = $(this).parent().children().index($(this));
-    //        var lastcol = $(this).parent().children().length - 1;
-    //        var row = $(this).parent().parent().children().index($(this).parent());
-    //        var divid = parentDiv.attr('id');
-    //        if (row > 1) {
-    //            if (divid == 'usersList' && col != lastcol)
-    //                UsersTableClick($(this), row - 1, col);
-    //            if (divid == 'materials')
-    //                MaterialsTableClick($(this), row - 1, col);
-    //        }
-    //    })
-    //    function CreateInnerInput(td, name, row, col) {
-    //        var width = $(td).width() - 5;
-    //        var height = $(td).parent().height() - 8;
-    //        var input = '<input class="' + name + '" name="' + name + '" value="' + td.text() + '" oldvalue="' + td.text() + '" style="width:' + parseInt(width) + 'px; height: ' + parseInt(height) + 'px; " type="text" data-row="' + row + '" data-column="' + col + '" />';
-    //        $(td).html('');
-    //        $(td).append($(input));
-    //        $(td).find('input').focus();
-    //    }
+        $('body').on('click', 'td', function () {
+            if ($(this).children().length > 0)
+                return;
+            var parentDiv = $(this).closest('div');
+            var col = $(this).parent().children().index($(this));
+            var lastcol = $(this).parent().children().length - 1;
+            var row = $(this).parent().parent().children().index($(this).parent());
+            var divid = parentDiv.attr('id');
+            if (row > 1) {
+                if (divid == 'usersList' && col != lastcol)
+                    UsersTableClick($(this), row - 1, col);
+                if (divid == 'materials')
+                    MaterialsTableClick($(this), row - 1, col);
+            }
+        })
+        function CreateInnerInput(td, name, row, col) {
+            var width = $(td).width() - 5;
+            var height = $(td).parent().height() - 8;
+            var input = '<input class="' + name + '" name="' + name + '" value="' + td.text() + '" oldvalue="' + td.text() + '" style="width:' + parseInt(width) + 'px; height: ' + parseInt(height) + 'px; " type="text" data-row="' + row + '" data-column="' + col + '" />';
+            $(td).html('');
+            $(td).append($(input));
+            $(td).find('input').focus();
+        }
     //#endregion Interface
 });

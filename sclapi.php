@@ -26,11 +26,10 @@
         $filename = PrivateConst::File_Name;
         $sheetName = SheetNames::Prints;
         $id = loadDocument($filename);
-        $rowLimit = 1;
-        $userNameValue = getCellValue($id, $sheetName, $rowLimit, 0);
-        while(!empty($userNameValue)){
+        $rowLimit = 0;
+        do{
             $userNameValue = getCellValue($id, $sheetName, ++$rowLimit, 0);
-        }
+        } while(!empty($userNameValue));
         $params = array(
             'id' => $id,
             'sheetname' => $sheetName,
@@ -43,15 +42,13 @@
         echo $request['data'];
     }
     function getUsersHtml(){
-        $columnLimit = 1;
         $filename = PrivateConst::File_Name;
         $sheetName = SheetNames::Users;
         $id = loadDocument($filename);
-        $rowLimit = 1;
-        $userNameValue = getCellValue($id, $sheetName, $rowLimit, 0);
-        while(!empty($userNameValue)){
+        $rowLimit = 0;
+        do{
             $userNameValue = getCellValue($id, $sheetName, ++$rowLimit, 0);
-        }
+        } while(!empty($userNameValue));
         $params = array(
             'id' => $id,
             'sheetname' => $sheetName,
