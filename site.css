@@ -1,0 +1,20 @@
+.sclapiButton {
+    /*border: 1px solid #FF6934;
+    background: #fff;*/
+    padding: 9px 15px;
+    display: inline-block;
+    background: #fffaf9;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4c4c4c;
+    transition: all linear 0.15s;
+    border: #FF6934;
+    border-style: solid;
+    border-width: 1px;
+    text-decoration: none;
+    margin-left: 4px;
+}
+.sclapiButton:hover {
+    background: #FF6934;
+    color: #fff;
+}

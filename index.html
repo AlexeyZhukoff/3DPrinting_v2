@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="sclapi.js"></script>
+        <link rel="stylesheet" type="text/css" href="tabsStyle.css">
+        <link rel="stylesheet" type="text/css" href="site.css">
+        <title>3D Printing application</title>
+    </head>
+    <body>
+        <h1>3D Printing application by SpreadsheetCloudAPI</h1>
+        <div class="tabs">
+            <ul class="tab-links">
+                <li class="active"><a class="usersA" href="#usersTab">Users</a></li>
+                <li><a class="materialsA" href="#materialsTab">Materials</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="usersTab" class="tab active">
+                    <div id="usersList"></div>
+                    <div id="newUserDialog" style="display: none">
+                        <span>Please input name of new user: </span><input id="newUserName" type="text"/>
+                        <button class="cancelButton sclapiButton">Cancel</button><button class="createButton sclapiButton">Create</button>
+                    </div>
+                    <br />
+                    <button class="addUserButton sclapiButton">Add User</button>
+                </div>
+                <div id="materialsTab" class="tab">
+                    <div id="materials"></div>
+                    <div id="newMaterialDialog" style="display: none">
+                        <span>Please input name of new material: </span><input id="newMaterialName" type="text"/><br />
+                        <span>Please input density of new material: </span><input id="newMaterialDensity" type="text"/><br />
+                        <span>Please input diameter of new material: </span><input id="newMaterialDiameter" type="text"/><br />
+                        <span>Please input price of new material: </span><input id="newMaterialPrice" type="text"/><br />
+                        <button class="cancelMButton sclapiButton">Cancel</button><button class="createMButton sclapiButton">Create</button>
+                    </div>
+                    <br />
+                    <button class="addMaterialButton sclapiButton">Add Material</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
