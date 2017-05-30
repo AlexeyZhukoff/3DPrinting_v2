@@ -213,10 +213,10 @@ $(document).ready(function () {
             $('.createMButton').click();
         }
     })
-    //    function MaterialsTableClick(td, row, col) {
-    //        CreateInnerInput(td, "changeMaterialsVal", row, col);
-    //        HideNewMaterialDialog();
-    //    }
+        function MaterialsTableClick(td, row, col) {
+            CreateInnerInput(td, "changeMaterialsVal", row, col);
+            HideNewMaterialDialog();
+        }
     //    function RemoveMaterial(materialname) {
     //        $.get('sclapi.php', { type: 'removeMaterial', materialName: materialname }, onAjaxSuccess);
     //        function onAjaxSuccess(data) {
