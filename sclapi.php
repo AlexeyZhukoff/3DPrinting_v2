@@ -6,6 +6,8 @@
          getUsersHtml();
     if($type == Commands::GetMaterialsHtml)
         getHtml(SheetNames::Materials);
+    if($type == Commands::GetPrintsHtml)
+        getPrintsHtml();
     //if($type == Commands::CreateUser)
     //    createUser();
     //if($type == Commands::RemoveUser)
@@ -20,7 +22,26 @@
     //    changeMaterialName();
     //if($type == Commands::ChangeMaterialPrice)
     //    changeMaterialPrice();
-
+    function getPrintsHtml(){
+        $filename = PrivateConst::File_Name;
+        $sheetName = SheetNames::Prints;
+        $id = loadDocument($filename);
+        $rowLimit = 1;
+        $userNameValue = getCellValue($id, $sheetName, $rowLimit, 0);
+        while(!empty($userNameValue)){
+            $userNameValue = getCellValue($id, $sheetName, ++$rowLimit, 0);
+        }
+        $params = array(
+            'id' => $id,
+            'sheetname' => $sheetName,
+            'endcolumnindex' => 3,
+            'endrowindex' => $rowLimit-1,
+        );
+        $request = get($params, '/exporttohtml');
+        closeDocument($filename, $id);
+        
+        echo $request['data'];
+    }
     function getUsersHtml(){
         $columnLimit = 1;
         $filename = PrivateConst::File_Name;
@@ -35,7 +56,7 @@
             'id' => $id,
             'sheetname' => $sheetName,
             'endcolumnindex' => 1,
-            'endrowindex' => $rowLimit,
+            'endrowindex' => $rowLimit-1,
         );
         $request = get($params, '/exporttohtml');
         closeDocument($filename, $id);

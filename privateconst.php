@@ -8,6 +8,7 @@ class PrivateConst {
 class SheetNames {
      const Users = 'Users';
      const Materials = 'Materials';
+     const Prints = 'Prints';
 //     const Charts = 'Charts';
 }
 //class Names {
@@ -30,6 +31,7 @@ class Commands {
 //    const RemoveUser = 'removeUser';
 //    const CreateMaterial = 'createMaterial';
 //    const RemoveMaterial = 'removeMaterial';
+    const GetPrintsHtml = 'getPrintsHtml';
     const GetUsersHtml = 'getUsersHtml';
     const GetMaterialsHtml = 'getMaterialsHtml';
 //    const ChangeUsersValue = 'changeUsersValue';
