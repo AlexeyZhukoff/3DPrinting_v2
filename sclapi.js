@@ -127,43 +127,44 @@ $(document).ready(function () {
     //    //#endregion UsersList
 
     //    //#region MaterialsList
-        $('body').on('click', '.addMaterialButton', function () {
-            ShowNewMaterialDialog();
-        })
-    //    $('body').on('click', '.createMButton', function () {
-    //        var materialname = $('#newMaterialName').val();
-    //        var materialprice = $('#newMaterialPrice').val();
-    //        var materialdensity = $('#newMaterialDensity').val();
-    //        var materialdiameter = $('#newMaterialDiameter').val();
-
-    //        if (materialdiameter == "" || isNaN(materialdiameter)) {
-    //            alert('Sorry, "Material diameter" must be a number!');
-    //            return;
-    //        }
-    //        if (materialdensity == "" || isNaN(materialdensity)) {
-    //            alert('Sorry, "Material density" must be a number!');
-    //            return;
-    //        }
-    //        if (materialprice == "" || isNaN(materialprice)) {
-    //            alert('Sorry, "Material price" must be a number!');
-    //            return;
-    //        }
-    //        if (HaveMaterialName(materialname)) {
-    //            alert('Material with this name already exists!');
-    //            return;
-    //        }
-    //        HideNewMaterialDialog();
-    //        if (!materialname || 0 === materialname.length)
-    //            return;
-    //        $.get('sclapi.php', { type: 'createMaterial', newMaterialName: materialname, newMaterialPrice: materialprice, newMaterialDensity: materialdensity, newMaterialDiameter: materialdiameter }, onAjaxSuccess);
-    //        function onAjaxSuccess(data) {
-    //            document.getElementById("usersList").innerHTML = data;
-    //        }
-    //        loadMaterials();
-    //    })
-        $('body').on('click', '.cancelMButton', function () {
-            HideNewMaterialDialog();
-        })
+    $('body').on('click', '.addMaterialButton', function () {
+        ShowNewMaterialDialog();
+    })
+    $('body').on('click', '.createMButton', function () {
+        var materialname = $('#newMaterialName').val();
+        var materialprice = $('#newMaterialPrice').val();
+        var materialdensity = $('#newMaterialDensity').val();
+        var materialdiameter = $('#newMaterialDiameter').val();
+        if (materialdiameter == "" || isNaN(materialdiameter)) {
+            alert('Sorry, "Material diameter" must be a number!');
+            return;
+        }
+        if (materialdensity == "" || isNaN(materialdensity)) {
+            alert('Sorry, "Material density" must be a number!');
+            return;
+        }
+        if (materialprice == "" || isNaN(materialprice)) {
+            alert('Sorry, "Material price" must be a number!');
+            return;
+        }
+        if (!materialname || 0 === materialname.length) {
+            alert('Sorry, "Material name" must be a not empty!');
+            return;
+        }
+        if (HaveMaterialName(materialname)) {
+            alert('Material with this name already exists!');
+            return;
+        }
+        HideNewMaterialDialog();
+        $.get('sclapi.php', { type: 'createMaterial', newMaterialName: materialname, newMaterialPrice: materialprice, newMaterialDensity: materialdensity, newMaterialDiameter: materialdiameter }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("usersList").innerHTML = data;
+        }
+        loadMaterials();
+    })
+    $('body').on('click', '.cancelMButton', function () {
+        HideNewMaterialDialog();
+    })
     //    $('body').on('change', '.changeMaterialsVal', function () {
     //        row = $(this).data('row');
     //        col = $(this).data('column');
@@ -196,22 +197,22 @@ $(document).ready(function () {
     //            }
     //        }
     //    })
-        $('body').on('blur', '.changeMaterialsVal', function () {
-            var oldvalue = $(this).attr('oldvalue');
-            var td = $(this).parent();
-            $(this).remove();
-            td.text(oldvalue);
-        })
-        $('#newMaterialName').keyup(function (e) {
-            if (e.keyCode == 13) {
-                $('.createMButton').click();
-            }
-        })
-        $('#newMaterialPrice').keyup(function (e) {
-            if (e.keyCode == 13) {
-                $('.createMButton').click();
-            }
-        })
+    $('body').on('blur', '.changeMaterialsVal', function () {
+        var oldvalue = $(this).attr('oldvalue');
+        var td = $(this).parent();
+        $(this).remove();
+        td.text(oldvalue);
+    })
+    $('#newMaterialName').keyup(function (e) {
+        if (e.keyCode == 13) {
+            $('.createMButton').click();
+        }
+    })
+    $('#newMaterialPrice').keyup(function (e) {
+        if (e.keyCode == 13) {
+            $('.createMButton').click();
+        }
+    })
     //    function MaterialsTableClick(td, row, col) {
     //        CreateInnerInput(td, "changeMaterialsVal", row, col);
     //        HideNewMaterialDialog();
@@ -251,31 +252,31 @@ $(document).ready(function () {
     //        }
     //        loadMaterials();
     //    }
-        function ShowNewMaterialDialog() {
-            $('#newMaterialDialog').attr("style", "");
-            $('#newMaterialName').val('');
-            $('#newMaterialDensity').val('');
-            $('#newMaterialDiameter').val('');
-            $('#newMaterialPrice').val('');
-            $('.addMaterialButton').attr("style", "display: none");
-        }
-        function HideNewMaterialDialog() {
-            $('#newMaterialDialog').attr("style", "display: none");
-            $('.addMaterialButton').attr("style", "");
-        }
-        function HaveMaterialName(materialname) {
-            var result = false;
-            $('#materials').find('td').each(function () {
-                var col = $(this).parent().children().index($(this));
-                var row = $(this).parent().parent().children().index($(this).parent());
-                if (col == 0 && row > 1 && $(this).text() == materialname) {
-                    result = true;
-                    return false;
-                }
-            });
-            return result;
-        }
-        //#endregion MaterialsList
+    function ShowNewMaterialDialog() {
+        $('#newMaterialDialog').attr("style", "");
+        $('#newMaterialName').val('');
+        $('#newMaterialDensity').val('');
+        $('#newMaterialDiameter').val('');
+        $('#newMaterialPrice').val('');
+        $('.addMaterialButton').attr("style", "display: none");
+    }
+    function HideNewMaterialDialog() {
+        $('#newMaterialDialog').attr("style", "display: none");
+        $('.addMaterialButton').attr("style", "");
+    }
+    function HaveMaterialName(materialname) {
+        var result = false;
+        $('#materials').find('td').each(function () {
+            var col = $(this).parent().children().index($(this));
+            var row = $(this).parent().parent().children().index($(this).parent());
+            if (col == 0 && row > 1 && $(this).text() == materialname) {
+                result = true;
+                return false;
+            }
+        });
+        return result;
+    }
+    //#endregion MaterialsList
 
     //#region Interface
     $('.tabs .tab-links a').on('click', function (e) {
@@ -286,28 +287,28 @@ $(document).ready(function () {
         $(this).parent('li').addClass('active').siblings().removeClass('active');
         e.preventDefault();
     });
-        $('body').on('click', 'td', function () {
-            if ($(this).children().length > 0)
-                return;
-            var parentDiv = $(this).closest('div');
-            var col = $(this).parent().children().index($(this));
-            var lastcol = $(this).parent().children().length - 1;
-            var row = $(this).parent().parent().children().index($(this).parent());
-            var divid = parentDiv.attr('id');
-            if (row > 1) {
-                if (divid == 'usersList' && col != lastcol)
-                    UsersTableClick($(this), row - 1, col);
-                if (divid == 'materials')
-                    MaterialsTableClick($(this), row - 1, col);
-            }
-        })
-        function CreateInnerInput(td, name, row, col) {
-            var width = $(td).width() - 5;
-            var height = $(td).parent().height() - 8;
-            var input = '<input class="' + name + '" name="' + name + '" value="' + td.text() + '" oldvalue="' + td.text() + '" style="width:' + parseInt(width) + 'px; height: ' + parseInt(height) + 'px; " type="text" data-row="' + row + '" data-column="' + col + '" />';
-            $(td).html('');
-            $(td).append($(input));
-            $(td).find('input').focus();
+    $('body').on('click', 'td', function () {
+        if ($(this).children().length > 0)
+            return;
+        var parentDiv = $(this).closest('div');
+        var col = $(this).parent().children().index($(this));
+        var lastcol = $(this).parent().children().length - 1;
+        var row = $(this).parent().parent().children().index($(this).parent());
+        var divid = parentDiv.attr('id');
+        if (row > 1) {
+            if (divid == 'usersList' && col != lastcol)
+                UsersTableClick($(this), row - 1, col);
+            if (divid == 'materials')
+                MaterialsTableClick($(this), row - 1, col);
         }
+    })
+    function CreateInnerInput(td, name, row, col) {
+        var width = $(td).width() - 5;
+        var height = $(td).parent().height() - 8;
+        var input = '<input class="' + name + '" name="' + name + '" value="' + td.text() + '" oldvalue="' + td.text() + '" style="width:' + parseInt(width) + 'px; height: ' + parseInt(height) + 'px; " type="text" data-row="' + row + '" data-column="' + col + '" />';
+        $(td).html('');
+        $(td).append($(input));
+        $(td).find('input').focus();
+    }
     //#endregion Interface
 });

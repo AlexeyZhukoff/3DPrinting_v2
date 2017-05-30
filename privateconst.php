@@ -11,25 +11,25 @@ class SheetNames {
      const Prints = 'Prints';
 //     const Charts = 'Charts';
 }
-//class Names {
+class Names {
 //    const FormulaColumnName = 'Full Price';
 //    const ColumnNames = 'ABCDEFGHIGKLMNOPQRSTUVWXYZ';
 //    const NewUserName = 'newUserName';
-//    const NewMaterialName = 'newMaterialName';
-//    const NewMaterialPrice = 'newMaterialPrice';
-//    const NewMaterialDensity = 'newMaterialDensity';
-//    const NewMaterialDiameter = 'newMaterialDiameter';
+    const NewMaterialName = 'newMaterialName';
+    const NewMaterialPrice = 'newMaterialPrice';
+    const NewMaterialDensity = 'newMaterialDensity';
+    const NewMaterialDiameter = 'newMaterialDiameter';
 
 //    const UserName = 'userName';
 //    const MaterialName = 'materialName';
 //    const Row = 'row';
 //    const Column = 'column';
 //    const NewValue = 'newValue';
-//}
+}
 class Commands {
 //    const CreateUser = 'createUser';
 //    const RemoveUser = 'removeUser';
-//    const CreateMaterial = 'createMaterial';
+    const CreateMaterial = 'createMaterial';
 //    const RemoveMaterial = 'removeMaterial';
     const GetPrintsHtml = 'getPrintsHtml';
     const GetUsersHtml = 'getUsersHtml';

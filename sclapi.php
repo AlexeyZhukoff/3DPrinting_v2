@@ -12,8 +12,8 @@
     //    createUser();
     //if($type == Commands::RemoveUser)
     //    removeUser();
-    //if($type == Commands::CreateMaterial)
-    //    createMaterial();
+    if($type == Commands::CreateMaterial)
+        createMaterial();
     //if($type == Commands::RemoveMaterial)
     //    removeMaterial();
     //if($type == Commands::ChangeUsersValue)
@@ -84,25 +84,23 @@
     //    
     //    getHtml(SheetNames::Users, 0);
     //}
-    //function createMaterial(){
-    //    $filename = PrivateConst::File_Name;
-    //    $materialName = $_GET[Names::NewMaterialName];
-    //    $materialDensity = $_GET[Names::NewMaterialDensity];
-    //    $materialDiameter = $_GET[Names::NewMaterialDiameter];
-    //    $materialPrice = $_GET[Names::NewMaterialPrice];
+    function createMaterial(){
+        $filename = PrivateConst::File_Name;
+        $materialName = $_GET[Names::NewMaterialName];
+        $materialDensity = $_GET[Names::NewMaterialDensity];
+        $materialDiameter = $_GET[Names::NewMaterialDiameter];
+        $materialPrice = $_GET[Names::NewMaterialPrice];
 
-    //    $id = loadDocument($filename);
-    //    insertRow($id, SheetNames::Materials, 1);
-    //    setCellValue(SheetNames::Materials, 1, 0, $filename, $materialName, $id);
-    //    setCellValue(SheetNames::Materials, 1, 1, $filename, floatval($materialDensity), $id);
-    //    setCellValue(SheetNames::Materials, 1, 2, $filename, floatval($materialDiameter), $id);
-    //    setCellValue(SheetNames::Materials, 1, 3, $filename, floatval($materialPrice), $id);
-    //    setCellFormula($id, SheetNames::Materials, 1, 4, "=((C2*C2*PI()/4)*B2)/1000");
-    //    insertMaterialInUsersList($id, $materialName);
-    //    closeDocument($filename, $id);
+        $id = loadDocument($filename);
+        insertRow($id, SheetNames::Materials, 1);
+        setCellValue(SheetNames::Materials, 1, 0, $filename, $materialName, $id);
+        setCellValue(SheetNames::Materials, 1, 1, $filename, floatval($materialDensity), $id);
+        setCellValue(SheetNames::Materials, 1, 2, $filename, floatval($materialDiameter), $id);
+        setCellValue(SheetNames::Materials, 1, 3, $filename, floatval($materialPrice), $id);
+        closeDocument($filename, $id);
 
-    //    getHtml(SheetNames::Users, 0);
-    //}
+        getUsersHtml();
+    }
 
     //function removeUser(){
     //    $filename = PrivateConst::File_Name;
@@ -211,16 +209,16 @@
     //    }
     //    return $result[0];
     //}    
-    //function insertRow($id, $sheetName, $row){
-    //    $params = array(
-    //        'id' => $id,
-    //        'sheetname' => $sheetName,
-    //        'startindex' => $row,
-    //        'count' => 1,
-    //        'formatmode' => "FormatAsPrevious",
-    //    );
-    //    return put($params, "/insertrows");
-    //}
+    function insertRow($id, $sheetName, $row){
+        $params = array(
+            'id' => $id,
+            'sheetname' => $sheetName,
+            'startindex' => $row,
+            'count' => 1,
+            'formatmode' => "FormatAsPrevious",
+        );
+        return put($params, "/insertrows");
+    }
     //function removeRow($id, $sheetName, $row){
     //    $params = array(
     //        'id' => $id,
@@ -266,17 +264,17 @@
         $request = get($params, '/closedocument');
         return $request;
     }
-    //function setCellValue($sheetName, $row, $column, $filename, $value, $id){
-    //    $params = array(
-    //    'id' => $id,
-    //    'filename' => $filename,
-    //    'sheetname' => $sheetName,
-    //    'rowindex' => $row,
-    //    'columnindex' => $column,
-    //    'value' => $value,
-    //    );
-    //    return put($params, "/setcellvalue");
-    //}
+    function setCellValue($sheetName, $row, $column, $filename, $value, $id){
+        $params = array(
+        'id' => $id,
+        'filename' => $filename,
+        'sheetname' => $sheetName,
+        'rowindex' => $row,
+        'columnindex' => $column,
+        'value' => $value,
+        );
+        return put($params, "/setcellvalue");
+    }
     //function updateCellsFormulas($sheetName, $column, $id) {
     //    $row=1;
     //    $user = getCellValue($id, $sheetName, $row, 0);
