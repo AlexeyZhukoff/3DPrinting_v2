@@ -158,9 +158,8 @@ $(document).ready(function () {
         HideNewMaterialDialog();
         $.get('sclapi.php', { type: 'createMaterial', newMaterialName: materialname, newMaterialPrice: materialprice, newMaterialDensity: materialdensity, newMaterialDiameter: materialdiameter }, onAjaxSuccess);
         function onAjaxSuccess(data) {
-            document.getElementById("usersList").innerHTML = data;
+            document.getElementById("materials").innerHTML = data;
         }
-        loadMaterials();
     })
     $('body').on('click', '.cancelMButton', function () {
         HideNewMaterialDialog();
@@ -208,15 +207,25 @@ $(document).ready(function () {
             $('.createMButton').click();
         }
     })
+    $('#newMaterialDensity').keyup(function (e) {
+        if (e.keyCode == 13) {
+            $('.createMButton').click();
+        }
+    })
+    $('#newMaterialDiameter').keyup(function (e) {
+        if (e.keyCode == 13) {
+            $('.createMButton').click();
+        }
+    })
     $('#newMaterialPrice').keyup(function (e) {
         if (e.keyCode == 13) {
             $('.createMButton').click();
         }
     })
-        function MaterialsTableClick(td, row, col) {
-            CreateInnerInput(td, "changeMaterialsVal", row, col);
-            HideNewMaterialDialog();
-        }
+    function MaterialsTableClick(td, row, col) {
+        CreateInnerInput(td, "changeMaterialsVal", row, col);
+        HideNewMaterialDialog();
+    }
     //    function RemoveMaterial(materialname) {
     //        $.get('sclapi.php', { type: 'removeMaterial', materialName: materialname }, onAjaxSuccess);
     //        function onAjaxSuccess(data) {

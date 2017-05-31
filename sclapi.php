@@ -5,7 +5,7 @@
     if($type == Commands::GetUsersHtml)
          getUsersHtml();
     if($type == Commands::GetMaterialsHtml)
-        getHtml(SheetNames::Materials);
+        getHtml(SheetNames::Materials, -1, -1);
     if($type == Commands::GetPrintsHtml)
         getPrintsHtml();
     //if($type == Commands::CreateUser)
@@ -22,24 +22,22 @@
     //    changeMaterialName();
     //if($type == Commands::ChangeMaterialPrice)
     //    changeMaterialPrice();
+
     function getPrintsHtml(){
         $filename = PrivateConst::File_Name;
         $sheetName = SheetNames::Prints;
         $id = loadDocument($filename);
+        
         $rowLimit = 0;
+        
         do{
             $userNameValue = getCellValue($id, $sheetName, ++$rowLimit, 0);
         } while(!empty($userNameValue));
-        $params = array(
-            'id' => $id,
-            'sheetname' => $sheetName,
-            'endcolumnindex' => 3,
-            'endrowindex' => $rowLimit-1,
-        );
-        $request = get($params, '/exporttohtml');
+        
+        $result = getSessionHtml($id, $sheetName, $rowLimit-1, 3);
         closeDocument($filename, $id);
         
-        echo $request['data'];
+        echo $result;
     }
     function getUsersHtml(){
         $filename = PrivateConst::File_Name;
@@ -49,41 +47,35 @@
         do{
             $userNameValue = getCellValue($id, $sheetName, ++$rowLimit, 0);
         } while(!empty($userNameValue));
-        $params = array(
-            'id' => $id,
-            'sheetname' => $sheetName,
-            'endcolumnindex' => 1,
-            'endrowindex' => $rowLimit-1,
-        );
-        $request = get($params, '/exporttohtml');
+
+        $result = getSessionHtml($id, $sheetName, $rowLimit-1, 1);
         closeDocument($filename, $id);
         
-        echo $request['data'];
+        echo $result;
     }
-    function getHtml($sheetName){
+    function getHtml($sheetName, $rowLimit, $columnLimit){
         $filename = PrivateConst::File_Name;
         $id = loadDocument($filename);
-
+        $result = getSessionHtml($id, $sheetName, $rowLimit, $columnLimit);
+        closeDocument($filename, $id);
+        
+        echo $result;
+    }
+    function getSessionHtml($id, $sheetName, $rowLimit, $columnLimit){
         $params = array(
             'id' => $id,
             'sheetname' => $sheetName,
         );
+        if($rowLimit > -1){
+            $params['endrowindex'] = $rowLimit;
+        }
+        if($columnLimit > -1){
+            $params['endcolumnindex'] = $columnLimit;
+        }
         $request = get($params, '/exporttohtml');
-        closeDocument($filename, $id);
-        
-        echo $request['data'];
+        return $request['data'];
     }
-    //function createUser(){
-    //    $filename = PrivateConst::File_Name;
-    //    $userName = $_GET[Names::NewUserName];
-    //    $id = loadDocument($filename);
-    //    insertRow($id, SheetNames::Users, 1);
-    //    setCellValue(SheetNames::Users, 1, 0, $filename, $userName, $id);
-    //    createFormula($id);
-    //    closeDocument($filename, $id);
-    //    
-    //    getHtml(SheetNames::Users, 0);
-    //}
+
     function createMaterial(){
         $filename = PrivateConst::File_Name;
         $materialName = $_GET[Names::NewMaterialName];
@@ -97,10 +89,147 @@
         setCellValue(SheetNames::Materials, 1, 1, $filename, floatval($materialDensity), $id);
         setCellValue(SheetNames::Materials, 1, 2, $filename, floatval($materialDiameter), $id);
         setCellValue(SheetNames::Materials, 1, 3, $filename, floatval($materialPrice), $id);
+        $result = getSessionHtml($id, SheetNames::Materials, 0, 0);
         closeDocument($filename, $id);
 
-        getUsersHtml();
+        echo $result;
     }
+
+    function insertRow($id, $sheetName, $row){
+        $params = array(
+            'id' => $id,
+            'sheetname' => $sheetName,
+            'startindex' => $row,
+            'count' => 1,
+            'formatmode' => "FormatAsPrevious",
+        );
+        return put($params, "/insertrows");
+    }
+    function loadDocument($filename){
+        $params = array( 'filename' => $filename, );
+        $request = get($params, '/loaddocument')['data'];
+        return json_decode($request)->Id;
+    }
+    function closeDocument($filename, $id){
+        $params = array( 
+            'id' => $id,
+            'filename' => $filename, 
+            'savechanges' => TRUE,
+        );
+        $request = get($params, '/closedocument');
+        return $request;
+    }
+    function setCellValue($sheetName, $row, $column, $filename, $value, $id){
+        $params = array(
+        'id' => $id,
+        'filename' => $filename,
+        'sheetname' => $sheetName,
+        'rowindex' => $row,
+        'columnindex' => $column,
+        'value' => $value,
+        );
+        return put($params, "/setcellvalue");
+    }
+    function getCellValue($id, $sheetName, $row, $column){
+        $params = array(
+        'id' => $id,
+        'sheetname' => $sheetName,
+        'rowindex' => $row,
+        'columnindex' => $column,
+        );
+        $request = get($params, "/getcellvalue")['data'];
+
+        return json_decode ($request)->Value;
+    }
+    function delete( $params, $url ) {
+        if (empty($params))
+            return null;
+
+        $json = json_encode($params);
+
+        $header = generate_header();
+
+        $request = curl_init();
+        curl_setopt_array($request, [
+            CURLOPT_URL => PrivateConst::Base_Url.$url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $header,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_POSTFIELDS => $json
+        ]);
+        $response = curl_exec($request);
+        $info = curl_getinfo($request);
+        curl_close($request);
+
+        return array('status' => $info['http_code'], 'data' => $response);
+    }
+    function put( $params, $url ) {
+        if (empty($params))
+            return null;
+
+        $json = json_encode($params);
+
+        $header = generate_header();
+
+        $request = curl_init();
+        curl_setopt_array($request, [
+            CURLOPT_URL => PrivateConst::Base_Url.$url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $header,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_POSTFIELDS => $json
+        ]);
+        $response = curl_exec($request);
+        $info = curl_getinfo($request);
+        curl_close($request);
+
+        return array('status' => $info['http_code'], 'data' => $response);
+    }
+    function get( $params, $url ) {
+        if ( empty( $params ) )
+            return null;
+        
+        $header = generate_header();
+        $request = curl_init();
+        curl_setopt_array( $request, [
+            CURLOPT_URL => PrivateConst::Base_Url.$url.'?'.http_build_query( $params ),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $header,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_AUTOREFERER => true
+        ]);
+
+        try {
+            $response = curl_exec( $request );
+            $info = curl_getinfo( $request );
+            curl_close( $request );
+        } catch ( Exception $e ) {
+            return array( 'status' => 434, 'data' => $e );
+        }
+        
+        return array( 'status' => $info['http_code'], 'data' => $response );
+    }
+    function generate_header() {
+        $API_key = PrivateConst::API_KEY;
+        $header = [
+            'Content-type: application/json',
+            'Authorization: amx '.$API_key,
+        ];
+        return $header;
+    }
+    //function createUser(){
+    //    $filename = PrivateConst::File_Name;
+    //    $userName = $_GET[Names::NewUserName];
+    //    $id = loadDocument($filename);
+    //    insertRow($id, SheetNames::Users, 1);
+    //    setCellValue(SheetNames::Users, 1, 0, $filename, $userName, $id);
+    //    createFormula($id);
+    //    closeDocument($filename, $id);
+    //    
+    //    getHtml(SheetNames::Users, 0);
+    //}
 
     //function removeUser(){
     //    $filename = PrivateConst::File_Name;
@@ -209,16 +338,6 @@
     //    }
     //    return $result[0];
     //}    
-    function insertRow($id, $sheetName, $row){
-        $params = array(
-            'id' => $id,
-            'sheetname' => $sheetName,
-            'startindex' => $row,
-            'count' => 1,
-            'formatmode' => "FormatAsPrevious",
-        );
-        return put($params, "/insertrows");
-    }
     //function removeRow($id, $sheetName, $row){
     //    $params = array(
     //        'id' => $id,
@@ -249,32 +368,6 @@
     //    );
     //    return put($params, "/insertcolumns");
     //}
-    function loadDocument($filename){
-        $params = array( 'filename' => $filename, );
-        $request = get($params, '/loaddocument')['data'];
-        return json_decode($request)->Id;
-    }
-    function closeDocument($filename, $id){
-        $params = array( 
-            'id' => $id,
-            'filename' => $filename, 
-            'savechanges' => TRUE,
-        );
-
-        $request = get($params, '/closedocument');
-        return $request;
-    }
-    function setCellValue($sheetName, $row, $column, $filename, $value, $id){
-        $params = array(
-        'id' => $id,
-        'filename' => $filename,
-        'sheetname' => $sheetName,
-        'rowindex' => $row,
-        'columnindex' => $column,
-        'value' => $value,
-        );
-        return put($params, "/setcellvalue");
-    }
     //function updateCellsFormulas($sheetName, $column, $id) {
     //    $row=1;
     //    $user = getCellValue($id, $sheetName, $row, 0);
@@ -325,17 +418,7 @@
     //    $request = get($params, "/getformula")['data'];
     //    return json_decode($request)->Value;
     //}
-    function getCellValue($id, $sheetName, $row, $column){
-        $params = array(
-        'id' => $id,
-        'sheetname' => $sheetName,
-        'rowindex' => $row,
-        'columnindex' => $column,
-        );
-        $request = get($params, "/getcellvalue")['data'];
-
-        return json_decode ($request)->Value;
-    }
+    
     //function createFormula($id){
     //    $formulaColumn = searchColumn(SheetNames::Users, Names::FormulaColumnName, $id);
     //    $column = 1;
@@ -353,83 +436,4 @@
     //function getColumnName($column){
     //    return substr ( Names::ColumnNames , $column, 1 );
     //}
-
-    function delete( $params, $url ) {
-        if (empty($params))
-            return null;
-
-        $json = json_encode($params);
-
-        $header = generate_header();
-
-        $request = curl_init();
-        curl_setopt_array($request, [
-            CURLOPT_URL => PrivateConst::Base_Url.$url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => $header,
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_POSTFIELDS => $json
-        ]);
-        $response = curl_exec($request);
-        $info = curl_getinfo($request);
-        curl_close($request);
-
-        return array('status' => $info['http_code'], 'data' => $response);
-    }
-    function put( $params, $url ) {
-        if (empty($params))
-            return null;
-
-        $json = json_encode($params);
-
-        $header = generate_header();
-
-        $request = curl_init();
-        curl_setopt_array($request, [
-            CURLOPT_URL => PrivateConst::Base_Url.$url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => $header,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_POSTFIELDS => $json
-        ]);
-        $response = curl_exec($request);
-        $info = curl_getinfo($request);
-        curl_close($request);
-
-        return array('status' => $info['http_code'], 'data' => $response);
-    }
-    function get( $params, $url ) {
-        if ( empty( $params ) )
-            return null;
-        
-        $header = generate_header();
-        $request = curl_init();
-        curl_setopt_array( $request, [
-            CURLOPT_URL => PrivateConst::Base_Url.$url.'?'.http_build_query( $params ),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => $header,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_AUTOREFERER => true
-        ]);
-
-        try {
-            $response = curl_exec( $request );
-            $info = curl_getinfo( $request );
-            curl_close( $request );
-        } catch ( Exception $e ) {
-            return array( 'status' => 434, 'data' => $e );
-        }
-        
-        return array( 'status' => $info['http_code'], 'data' => $response );
-    }
-    function generate_header() {
-        $API_key = PrivateConst::API_KEY;
-        $header = [
-            'Content-type: application/json',
-            'Authorization: amx '.$API_key,
-        ];
-        return $header;
-    }
 ?>
