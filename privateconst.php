@@ -36,8 +36,8 @@ class Commands {
     const GetMaterialsHtml = 'getMaterialsHtml';
 //    const ChangeUsersValue = 'changeUsersValue';
     const ChangeMaterialName = 'changeMaterialName';
-//    const ChangeMaterialPrice = 'changeMaterialPrice';
-//    const ChangeMaterialDensity = 'changeMaterialDensity';
-//    const ChangeMaterialDiameter = 'changeMaterialDiameter';
+    const ChangeMaterialPrice = 'changeMaterialPrice';
+    const ChangeMaterialDensity = 'changeMaterialDensity';
+    const ChangeMaterialDiameter = 'changeMaterialDiameter';
 }
 ?>

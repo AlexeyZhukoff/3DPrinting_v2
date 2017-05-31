@@ -20,8 +20,13 @@
     //    changeUsersValue();
     if($type == Commands::ChangeMaterialName)
         changeMaterialName();
-    //if($type == Commands::ChangeMaterialPrice)
-    //    changeMaterialPrice();
+    if($type == Commands::ChangeMaterialPrice)
+        changeMaterialPrice();
+    if($type == Commands::ChangeMaterialDensity)
+        changeMaterialDensity();
+    if($type == Commands::ChangeMaterialDiameter)
+        changeMaterialDiameter();
+
 
     function getPrintsHtml(){
         $filename = PrivateConst::File_Name;
@@ -126,7 +131,28 @@
 
         echo $result;
     }
-    
+    function changeMaterialDensity(){
+        echo changeMaterialValue(1);
+    }
+    function changeMaterialDiameter(){
+        echo changeMaterialValue(2);
+    }
+    function changeMaterialPrice(){
+        echo changeMaterialValue(3);
+    }
+    function changeMaterialValue($column){
+        $filename = PrivateConst::File_Name;
+        $row = $_GET[Names::Row];
+        $value = $_GET[Names::NewValue];
+        
+        $id = loadDocument($filename);
+        setCellValue(SheetNames::Materials, $row, $column, $filename, floatval($value), $id);
+        $result = getSessionHtml($id, SheetNames::Materials, -1, -1);
+        closeDocument($filename, $id);
+
+        return $result;
+    }
+        
     function searchCells($sheetName, $text, $column, $row, $matchCase, $id){
         $params = array(
             'id' => $id,
@@ -313,17 +339,7 @@
     //    getHtml(SheetNames::Users, 0);
     //}
 
-    //function changeMaterialPrice(){
-    //    $filename = PrivateConst::File_Name;
-    //    $row = $_GET[Names::Row];
-    //    $value = $_GET[Names::NewValue];
-    //    
-    //    $id = loadDocument($filename);
-    //    setCellValue(SheetNames::Materials, $row, 1, $filename, $value, $id);
-    //    closeDocument($filename, $id);
 
-    //    getHtml(SheetNames::Users, 0);
-    //}
     //function insertMaterialInUsersList($id, $materialName){
     //    insertColumn($id, SheetNames::Users, 1);
     //    setCellValue(SheetNames::Users, 0, 1, $filename, $materialName, $id);

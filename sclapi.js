@@ -125,7 +125,7 @@ $(document).ready(function () {
     }
     //#endregion UsersList
 
-    //    //#region MaterialsList
+    //#region MaterialsList
     $('body').on('click', '.addMaterialButton', function () {
         ShowNewMaterialDialog();
     })
@@ -180,18 +180,20 @@ $(document).ready(function () {
                     ChangeMaterialName(row, newvalue);
                 }
             } else {
-                //                if (isNaN(newvalue)) {
-                //                    $(this).css("border-color", "red");
-                //                    alert('Sorry, value must be a number!');
-                //                    return;
-                //                }
-                //                if (col == 3) {
-                //                    ChangeMaterialPrice(row, newvalue);
-                //                }
-                //                //if (col == 1) {
-                //                //    ChangeMaterialPrice(row, newvalue);
-                //                //}
-
+                if (isNaN(newvalue) || !newvalue || 0 === newvalue.length) {
+                    $(this).css("border-color", "red");
+                    alert('Sorry, value must be a number!');
+                    return;
+                }
+                if (col == 1) {
+                    ChangeMaterialDensity(row, newvalue);
+                }
+                if (col == 2) {
+                    ChangeMaterialDiameter(row, newvalue);
+                }
+                if (col == 3) {
+                    ChangeMaterialPrice(row, newvalue);
+                }
             }
         }
     })
@@ -238,27 +240,24 @@ $(document).ready(function () {
             document.getElementById("materials").innerHTML = data;
         }
     }
-    //    function ChangeMaterialPrice(row, newvalue) {
-    //        $.get('sclapi.php', { type: 'changeMaterialPrice', row: row, newValue: newvalue }, onAjaxSuccess);
-    //        function onAjaxSuccess(data) {
-    //            document.getElementById("usersList").innerHTML = data;
-    //        }
-    //        loadMaterials();
-    //    }
-    //    function ChangeMaterialDensity(row, newvalue) {
-    //        $.get('sclapi.php', { type: 'changeMaterialDensity', row: row, newValue: newvalue }, onAjaxSuccess);
-    //        function onAjaxSuccess(data) {
-    //            document.getElementById("usersList").innerHTML = data;
-    //        }
-    //        loadMaterials();
-    //    }
-    //    function ChangeMaterialDiameter(row, newvalue) {
-    //        $.get('sclapi.php', { type: 'changeMaterialDiameter', row: row, newValue: newvalue }, onAjaxSuccess);
-    //        function onAjaxSuccess(data) {
-    //            document.getElementById("usersList").innerHTML = data;
-    //        }
-    //        loadMaterials();
-    //    }
+    function ChangeMaterialPrice(row, newvalue) {
+        $.get('sclapi.php', { type: 'changeMaterialPrice', row: row, newValue: newvalue }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("materials").innerHTML = data;
+        }
+    }
+    function ChangeMaterialDensity(row, newvalue) {
+        $.get('sclapi.php', { type: 'changeMaterialDensity', row: row, newValue: newvalue }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("materials").innerHTML = data;
+        }
+    }
+    function ChangeMaterialDiameter(row, newvalue) {
+        $.get('sclapi.php', { type: 'changeMaterialDiameter', row: row, newValue: newvalue }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("materials").innerHTML = data;
+        }
+    }
     function ShowNewMaterialDialog() {
         $('#newMaterialDialog').attr("style", "");
         $('#newMaterialName').val('');
