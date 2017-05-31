@@ -65,10 +65,10 @@ $(document).ready(function () {
         if (col > 2)
             return;
         if (col == 0) {
-            //CreateInnerSelector(td, "changePrintingUser", row, col, GetUsers(), '/id="printingUser"/');
+            CreateInnerSelector(td, "changePrintingUser", row, col, GetUsersOptions());
         }
         if (col == 1) {
-            CreateMaterialsSelector(td, "changePrintingMaterial", row, col);
+            CreateInnerSelector(td, "changePrintingMaterial", row, col, GetMaterialsOptions());
         }
         if (col == 2) {
             CreateInnerInput(td, "changePrintsVal", row, col);
@@ -89,6 +89,12 @@ $(document).ready(function () {
         }
     })
     $('body').on('blur', '.changePrintingMaterial', function () {
+        var oldvalue = $(this).attr('oldvalue');
+        var td = $(this).parent();
+        $(this).remove();
+        td.text(oldvalue);
+    })
+    $('body').on('blur', '.changePrintingUser', function () {
         var oldvalue = $(this).attr('oldvalue');
         var td = $(this).parent();
         $(this).remove();
@@ -200,21 +206,22 @@ $(document).ready(function () {
     }
     function GetUsers() {
         var result = '<select id="printingUser">';
+        result = result + GetUsersOptions();
+        result = result + '</select>';
+        return result;
+    }
+    function GetUsersOptions() {
+        var result = '';
         $('#usersList').find('td').each(function () {
             var col = $(this).parent().children().index($(this));
             var row = $(this).parent().parent().children().index($(this).parent());
             if (col == 0 && row > 1) {
-                if (result.length == 26) {
-                    result = result + '<option value="' + $(this).text() + '">';
-                } else {
-                    result = result + '<option>';
-                }
-                result = result + $(this).text() + '</option>';
+                result = result + '<option>' + $(this).text() + '</option>';
             }
         });
-        result = result + '</select>';
         return result;
     }
+
     //#endregion UsersList
 
     //#region MaterialsList
@@ -429,12 +436,12 @@ $(document).ready(function () {
         $(td).append($(input));
         $(td).find('input').focus();
     }
-    function CreateMaterialsSelector(td, name, row, col) {
+    function CreateInnerSelector(td, name, row, col, options) {
         var width = $(td).width() - 15;
         var height = $(td).parent().height() - 2;
         var defaultValue = td.text();
         var selector = '<select selected="selected"' + 'class="' + name + '" id="' + name + '" oldvalue="' + td.text() + '" style="width:' + parseInt(width) + 'px; height: ' + parseInt(height) + 'px; " type="text" data-row="' + row + '" data-column="' + col + '">'; ;
-        selector = selector + GetMaterialsOptions();
+        selector = selector + options;
         selector = selector + '</select>';
         $(td).html('');
         $(td).append($(selector));
