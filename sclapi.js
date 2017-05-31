@@ -24,6 +24,40 @@ $(document).ready(function () {
     }
     //#endregion HTML Export
 
+    //#region PrintsList
+    $('body').on('click', '.addPrintButton', function () {
+        ShowNewPrintingDialog();
+    })
+    $('body').on('click', '.cancelPButton', function () {
+        HideNewPrintingDialog();
+    })
+    $('body').on('click', '.createPButton', function () {
+        CreatePrinting($('#printingUser').val(), $('#usedMaterial').val(),  $('#materialLength').val());
+    })
+    function CreatePrinting(username, materialname, length) {
+        HideNewPrintingDialog();
+        if (isNaN(length) || 0 === length.length){
+            alert('Sorry, "Length of used material" must be a number!');
+            return;
+        }
+        $.get('sclapi.php', { type: 'createPrinting', newUserName: username, newMaterialName : materialname, length: length }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("printsList").innerHTML = data;
+        }
+    }
+    function ShowNewPrintingDialog() {
+        $('#newPrintingDialog').attr("style", "");
+        document.getElementById("printingUser").innerHTML = GetUsers();
+        document.getElementById("usedMaterial").innerHTML = GetMaterials();
+        $('#materialLength').val('');
+        $('.addPrintButton').attr("style", "display: none");
+    }
+    function HideNewPrintingDialog() {
+        $('#newPrintingDialog').attr("style", "display: none");
+        $('.addPrintButton').attr("style", "");
+    }
+    //#endregion PrintsList
+
     //#region UsersList
     $('body').on('click', '.addUserButton', function () {
         ShowNewUserDialog();
@@ -112,6 +146,23 @@ $(document).ready(function () {
                 return false;
             }
         });
+        return result;
+    }
+    function GetUsers() {
+        var result = '<select id="printingUser">';
+        $('#usersList').find('td').each(function () {
+            var col = $(this).parent().children().index($(this));
+            var row = $(this).parent().parent().children().index($(this).parent());
+            if (col == 0 && row > 1) {
+                if (result.length == 26) {
+                    result = result + '<option value="' + $(this).text() + '">';
+                } else {
+                    result = result + '<option>';
+                }
+                result = result + $(this).text() + '</option>';
+            }
+        });
+        result = result + '</select>';
         return result;
     }
     //#endregion UsersList
@@ -273,10 +324,28 @@ $(document).ready(function () {
         });
         return result;
     }
+    function GetMaterials() {
+        var result = '<select id="usedMaterial">';
+        $('#materials').find('td').each(function () {
+            var col = $(this).parent().children().index($(this));
+            var row = $(this).parent().parent().children().index($(this).parent());
+            if (col == 0 && row > 1) {
+                if (result.length == 26) {
+                    result = result + '<option value="' + $(this).text() + '">';
+                } else {
+                    result = result + '<option>';
+                }
+                result = result + $(this).text() + '</option>';
+            }
+        });
+        result = result + '</select>';
+        return result;
+    }
     //#endregion MaterialsList
 
     //#region Interface
     $('.tabs .tab-links a').on('click', function (e) {
+        HideNewPrintingDialog();
         HideNewUserDialog();
         HideNewMaterialDialog();
         var currentAttrValue = $(this).attr('href');

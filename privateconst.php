@@ -25,8 +25,10 @@ class Names {
     const Row = 'row';
     const Column = 'column';
     const NewValue = 'newValue';
+    const Length = 'length';
 }
 class Commands {
+    const CreatePrinting = 'createPrinting';
     const CreateUser = 'createUser';
 //    const RemoveUser = 'removeUser';
     const CreateMaterial = 'createMaterial';

@@ -8,6 +8,8 @@
         getHtml(SheetNames::Materials, -1, -1);
     if($type == Commands::GetPrintsHtml)
         getPrintsHtml();
+    if($type == Commands::CreatePrinting)
+        createPrinting();
     if($type == Commands::CreateUser)
         createUser();
     //if($type == Commands::RemoveUser)
@@ -79,6 +81,25 @@
         }
         $request = get($params, '/exporttohtml');
         return $request['data'];
+    }
+
+    function createPrinting(){
+        $filename = PrivateConst::File_Name;
+        $userName = $_GET[Names::NewUserName];
+        $materialName = $_GET[Names::NewMaterialName];
+        $length = $_GET[Names::Length];
+        $id = loadDocument($filename);
+        $firstEmptyRow = 0;
+        do{
+            $userNameValue = getCellValue($id, SheetNames::Prints, ++$firstEmptyRow, 0);
+        } while(!empty($userNameValue));
+        setCellValue(SheetNames::Prints, $firstEmptyRow, 0, $filename, $userName, $id);
+        setCellValue(SheetNames::Prints, $firstEmptyRow, 1, $filename, $materialName, $id);
+        setCellValue(SheetNames::Prints, $firstEmptyRow, 2, $filename, floatval($length), $id);
+        $result = getSessionHtml($id, SheetNames::Prints, $firstEmptyRow, 3);
+        closeDocument($filename, $id);
+       
+        echo $result;
     }
 
     function createUser(){

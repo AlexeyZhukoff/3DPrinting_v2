@@ -20,9 +20,11 @@
             <div class="tab-content">
                 <div id="printsTab" class="tab active">
                     <div id="printsList"></div>
-                    <div id="newPrintDialog" style="display: none">
-                        <!--<span>Please input name of new user: </span><input id="newUserName" type="text"/>
-                        <button class="cancelButton sclapiButton">Cancel</button><button class="createButton sclapiButton">Create</button>-->
+                    <div id="newPrintingDialog" style="display: none">
+                        <span>Please select name of printing user: </span><select id="printingUser"></select><br />
+                        <span>Please select name of used material: </span><select id="usedMaterial"></select><br />
+                        <span>Please enter length of used material: </span><input id="materialLength" type="text"/><br />
+                        <button class="cancelPButton sclapiButton">Cancel</button><button class="createPButton sclapiButton">Create</button>
                     </div>
                     <br />
                     <button class="addPrintButton sclapiButton">Add Print</button>
