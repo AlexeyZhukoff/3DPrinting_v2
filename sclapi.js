@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    loadPrints();
     loadUsers();
     loadMaterials();
+    loadPrints();
 
     //#region HTML Export
     function loadUsers() {
@@ -32,18 +32,23 @@ $(document).ready(function () {
         HideNewPrintingDialog();
     })
     $('body').on('click', '.createPButton', function () {
-        CreatePrinting($('#printingUser').val(), $('#usedMaterial').val(),  $('#materialLength').val());
+        CreatePrinting($('#printingUser').val(), $('#usedMaterial').val(), $('#materialLength').val());
+    })
+    $('#materialLength').keyup(function (e) {
+        if (e.keyCode == 13) {
+            $('.createPButton').click();
+        }
     })
     function CreatePrinting(username, materialname, length) {
-        HideNewPrintingDialog();
-        if (isNaN(length) || 0 === length.length){
+        if (isNaN(length) || 0 === length.length) {
             alert('Sorry, "Length of used material" must be a number!');
             return;
         }
-        $.get('sclapi.php', { type: 'createPrinting', newUserName: username, newMaterialName : materialname, length: length }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'createPrinting', newUserName: username, newMaterialName: materialname, length: length }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
         }
+        HideNewPrintingDialog();
     }
     function ShowNewPrintingDialog() {
         $('#newPrintingDialog').attr("style", "");
@@ -55,6 +60,51 @@ $(document).ready(function () {
     function HideNewPrintingDialog() {
         $('#newPrintingDialog').attr("style", "display: none");
         $('.addPrintButton').attr("style", "");
+    }
+    function PrintsTableClick(td, row, col) {
+        if (col > 2)
+            return;
+        if (col == 0) {
+            //CreateInnerSelector(td, "changePrintingUser", row, col, GetUsers(), '/id="printingUser"/');
+        }
+        if (col == 1) {
+            CreateMaterialsSelector(td, "changePrintingMaterial", row, col);
+        }
+        if (col == 2) {
+            CreateInnerInput(td, "changePrintsVal", row, col);
+        }
+        HideNewPrintingDialog();
+    }
+    $('body').on('change', '.changePrintsVal', function () {
+        row = $(this).data('row');
+        newvalue = $(this).val();
+        oldvalue = $(this).attr('oldvalue');
+        if (newvalue != oldvalue) {
+            if (isNaN(newvalue) || 0 === newvalue.length) {
+                alert('Sorry, "Length of used material" must be a number!');
+                return;
+            } else {
+                ChangePrintingLength(newvalue, row);
+            }
+        }
+    })
+    $('body').on('blur', '.changePrintingMaterial', function () {
+        var oldvalue = $(this).attr('oldvalue');
+        var td = $(this).parent();
+        $(this).remove();
+        td.text(oldvalue);
+    })
+    $('body').on('blur', '.changePrintsVal', function () {
+        var oldvalue = $(this).attr('oldvalue');
+        var td = $(this).parent();
+        $(this).remove();
+        td.text(oldvalue);
+    })
+    function ChangePrintingLength(newvalue, row) {
+        $.get('sclapi.php', { type: 'changePrintingLength', row: row, length: newvalue }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("printsList").innerHTML = data;
+        }
     }
     //#endregion PrintsList
 
@@ -326,21 +376,22 @@ $(document).ready(function () {
     }
     function GetMaterials() {
         var result = '<select id="usedMaterial">';
+        result = result + GetMaterialsOptions();
+        result = result + '</select>';
+        return result;
+    }
+    function GetMaterialsOptions() {
+        var result = '';
         $('#materials').find('td').each(function () {
             var col = $(this).parent().children().index($(this));
             var row = $(this).parent().parent().children().index($(this).parent());
             if (col == 0 && row > 1) {
-                if (result.length == 26) {
-                    result = result + '<option value="' + $(this).text() + '">';
-                } else {
-                    result = result + '<option>';
-                }
-                result = result + $(this).text() + '</option>';
+                result = result + '<option>' + $(this).text() + '</option>';
             }
         });
-        result = result + '</select>';
         return result;
     }
+
     //#endregion MaterialsList
 
     //#region Interface
@@ -366,6 +417,8 @@ $(document).ready(function () {
                 UsersTableClick($(this), row - 1, col);
             if (divid == 'materials')
                 MaterialsTableClick($(this), row - 1, col);
+            if (divid == 'printsList')
+                PrintsTableClick($(this), row - 1, col);
         }
     })
     function CreateInnerInput(td, name, row, col) {
@@ -375,6 +428,18 @@ $(document).ready(function () {
         $(td).html('');
         $(td).append($(input));
         $(td).find('input').focus();
+    }
+    function CreateMaterialsSelector(td, name, row, col) {
+        var width = $(td).width() - 15;
+        var height = $(td).parent().height() - 2;
+        var defaultValue = td.text();
+        var selector = '<select selected="selected"' + 'class="' + name + '" id="' + name + '" oldvalue="' + td.text() + '" style="width:' + parseInt(width) + 'px; height: ' + parseInt(height) + 'px; " type="text" data-row="' + row + '" data-column="' + col + '">'; ;
+        selector = selector + GetMaterialsOptions();
+        selector = selector + '</select>';
+        $(td).html('');
+        $(td).append($(selector));
+        document.getElementById(name).value = defaultValue;
+        $(td).find('select').focus();
     }
     //#endregion Interface
 });

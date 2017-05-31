@@ -41,5 +41,6 @@ class Commands {
     const ChangeMaterialPrice = 'changeMaterialPrice';
     const ChangeMaterialDensity = 'changeMaterialDensity';
     const ChangeMaterialDiameter = 'changeMaterialDiameter';
+    const ChangePrintingLength = 'changePrintingLength';
 }
 ?>

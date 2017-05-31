@@ -3,7 +3,7 @@
     $type = $_GET['type'];
     
     if($type == Commands::GetUsersHtml)
-         getUsersHtml();
+        getUsersHtml();
     if($type == Commands::GetMaterialsHtml)
         getHtml(SheetNames::Materials, -1, -1);
     if($type == Commands::GetPrintsHtml)
@@ -12,6 +12,8 @@
         createPrinting();
     if($type == Commands::CreateUser)
         createUser();
+    if($type == Commands::ChangePrintingLength)
+        changePrintingLength();
     //if($type == Commands::RemoveUser)
     //    removeUser();
     if($type == Commands::CreateMaterial)
@@ -99,6 +101,22 @@
         $result = getSessionHtml($id, SheetNames::Prints, $firstEmptyRow, 3);
         closeDocument($filename, $id);
        
+        echo $result;
+    }
+    function changePrintingLength(){
+        $filename = PrivateConst::File_Name;
+        $row = $_GET[Names::Row];
+        $value = $_GET[Names::Length];
+        
+        $id = loadDocument($filename);
+        setCellValue(SheetNames::Prints, $row, 2, $filename, floatval($value), $id);
+        $firstEmptyRow = 0;
+        do{
+            $userNameValue = getCellValue($id, SheetNames::Prints, ++$firstEmptyRow, 0);
+        } while(!empty($userNameValue));
+        $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
+        closeDocument($filename, $id);
+
         echo $result;
     }
 
@@ -366,12 +384,6 @@
 
 
 
-    //function insertMaterialInUsersList($id, $materialName){
-    //    insertColumn($id, SheetNames::Users, 1);
-    //    setCellValue(SheetNames::Users, 0, 1, $filename, $materialName, $id);
-    //    $formulaColumn = searchColumn(SheetNames::Users, Names::FormulaColumnName, $id);
-    //    updateCellsFormulas(SheetNames::Users, $formulaColumn, $id);
-    //}
     //function searchRow($sheetName, $text, $id){
     //    $params = array(
     //        'id' => $id,
@@ -439,73 +451,5 @@
     //        'formatmode' => "FormatAsNext",
     //    );
     //    return put($params, "/insertcolumns");
-    //}
-    //function updateCellsFormulas($sheetName, $column, $id) {
-    //    $row=1;
-    //    $user = getCellValue($id, $sheetName, $row, 0);
-    //    while (!empty($user)) {
-    //        $replace = '=B'.strval($row+1).'*Materials!$B$2';
-    //        $formula = getCellFormula($id, $sheetName, $row, $column);
-    //        if(empty($formula)) {
-    //            $formula = $replace;
-    //        } else {
-    //            $formula = str_replace("=", $replace.'+', $formula);
-    //        }
-    //        setCellFormula($id, $sheetName, $row, $column, $formula);
-    //        $user = getCellValue($id, $sheetName, ++$row, 0);
-    //    }
-    //}
-    //function updateCellsFormulasAfterRemove($sheetName, $column, $id) {
-    //    $row=1;
-    //    $formula = getCellFormula($id, $sheetName, $row, $column);
-    //    while (!empty($formula)) {
-    //        $newFormula = str_replace('#REF!*Materials!#REF!', '', $formula);
-    //        $newFormula = str_replace('=+', '=', $newFormula);
-    //        $newFormula = str_replace('++', '+', $newFormula);
-    //        if(strlen($newFormula)<4){
-    //            $newFormula = '=0';
-    //        }
-    //        setCellFormula($id, $sheetName, $row, $column, $newFormula);
-    //        $formula = getCellFormula($id, $sheetName, ++$row, $column);
-    //    }
-    //}
-    //function setCellFormula($id, $sheetName, $row, $column, $formula){
-    //    $params = array(
-    //        'id' => $id,
-    //        'sheetname' => $sheetName,
-    //        'rowindex' => $row,
-    //        'columnindex' => $column,
-    //        'value' => $formula,
-    //        );
-    //    $request = put($params, "/setformula");
-    //    return $request['data'];
-    //}
-    //function getCellFormula($id, $sheetName, $row, $column){
-    //    $params = array(
-    //    'id' => $id,
-    //    'sheetname' => $sheetName,
-    //    'rowindex' => $row,
-    //    'columnindex' => $column,
-    //    );
-    //    $request = get($params, "/getformula")['data'];
-    //    return json_decode($request)->Value;
-    //}
-    
-    //function createFormula($id){
-    //    $formulaColumn = searchColumn(SheetNames::Users, Names::FormulaColumnName, $id);
-    //    $column = 1;
-    //    $formula= '=';
-    //    
-    //    while($column < $formulaColumn){
-    //        $columnName = getColumnName($column);
-    //        $row = $column+1;
-    //        $formula = $formula.$columnName.'2*Materials!$B$'.$row.'+';
-    //        $column++;
-    //    }
-    //    $formula = $formula.'0';
-    //    setCellFormula($id, SheetNames::Users, 1, $formulaColumn, $formula);
-    //}
-    //function getColumnName($column){
-    //    return substr ( Names::ColumnNames , $column, 1 );
-    //}
+    //}   
 ?>
