@@ -23,7 +23,7 @@ class Names {
 //    const UserName = 'userName';
 //    const MaterialName = 'materialName';
     const Row = 'row';
-//    const Column = 'column';
+    const Column = 'column';
     const NewValue = 'newValue';
 }
 class Commands {
@@ -34,7 +34,7 @@ class Commands {
     const GetPrintsHtml = 'getPrintsHtml';
     const GetUsersHtml = 'getUsersHtml';
     const GetMaterialsHtml = 'getMaterialsHtml';
-//    const ChangeUsersValue = 'changeUsersValue';
+    const ChangeUserName = 'changeUserName';
     const ChangeMaterialName = 'changeMaterialName';
     const ChangeMaterialPrice = 'changeMaterialPrice';
     const ChangeMaterialDensity = 'changeMaterialDensity';

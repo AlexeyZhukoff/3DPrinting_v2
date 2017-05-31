@@ -16,8 +16,8 @@
         createMaterial();
     //if($type == Commands::RemoveMaterial)
     //    removeMaterial();
-    //if($type == Commands::ChangeUsersValue)
-    //    changeUsersValue();
+    if($type == Commands::ChangeUserName)
+        changeUserName();
     if($type == Commands::ChangeMaterialName)
         changeMaterialName();
     if($type == Commands::ChangeMaterialPrice)
@@ -95,6 +95,26 @@
         
         echo $result;
     }
+    function changeUserName(){
+        $filename = PrivateConst::File_Name;
+        $row = $_GET[Names::Row];
+        $newValue = $_GET[Names::NewValue];
+        $id = loadDocument($filename);
+        $oldValue = getCellValue($id, SheetNames::Users, $row, 0);
+        setCellValue(SheetNames::Users, $row, 0, $filename, $newValue, $id);
+        $jsonPrintsCells = searchCells(SheetNames::Prints, $oldValue, 0, -1, 'TRUE', $id);
+        foreach ($jsonPrintsCells as $cell) {
+            setCellValue(SheetNames::Prints, $cell ->RowIndex, 0, $filename, $newValue, $id);
+        }
+        $firstEmptyRow = 0;
+        do{
+            $userNameValue = getCellValue($id, SheetNames::Users, ++$firstEmptyRow, 0);
+        } while(!empty($userNameValue));
+        $result = getSessionHtml($id, SheetNames::Users, $firstEmptyRow-1, 1);
+        closeDocument($filename, $id);
+
+        echo $result;
+    }
 
     function createMaterial(){
         $filename = PrivateConst::File_Name;
@@ -122,7 +142,7 @@
         $id = loadDocument($filename);
         $oldValue = getCellValue($id, SheetNames::Materials, $row, 0);
         setCellValue(SheetNames::Materials, $row, 0, $filename, $value, $id);
-        $jsonPrintsCells = searchCells(SheetNames::Prints, $oldValue, 1, -1, TRUE, $id);
+        $jsonPrintsCells = searchCells(SheetNames::Prints, $oldValue, 1, -1, 'TRUE', $id);
         foreach ($jsonPrintsCells as $cell) {
             setCellValue(SheetNames::Prints, $cell ->RowIndex, 1, $filename, $value, $id);
         }
@@ -158,7 +178,7 @@
             'id' => $id,
             'sheetname' => $sheetName,
             'text' => $text,
-            'matchentirecellcontents' => TRUE,
+            'matchentirecellcontents' => 'TRUE',
             'matchcase' => $matchCase,
         );
         if($column > -1){
@@ -323,21 +343,6 @@
     //    getHtml(SheetNames::Materials, 3);
     //}
 
-    //function changeUsersValue(){
-    //    $filename = PrivateConst::File_Name;
-    //    $row = $_GET[Names::Row];
-    //    $column = $_GET[Names::Column];
-    //    $value = $_GET[Names::NewValue];
-    //    $id = loadDocument($filename);
-    //    $newval = $value;
-    //    if($column !=0) {
-    //        $newval = floatval($value);
-    //    }
-    //    setCellValue(SheetNames::Users, $row, $column, $filename, $newval, $id);
-    //    closeDocument($filename, $id);
-
-    //    getHtml(SheetNames::Users, 0);
-    //}
 
 
     //function insertMaterialInUsersList($id, $materialName){

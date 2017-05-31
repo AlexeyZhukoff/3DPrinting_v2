@@ -39,32 +39,23 @@ $(document).ready(function () {
     $('body').on('click', '.cancelButton', function () {
         HideNewUserDialog();
     })
-    //    $('body').on('change', '.changeUserVal', function () {
-    //        row = $(this).data('row');
-    //        col = $(this).data('column');
-    //        newvalue = $(this).val();
-    //        oldvalue = $(this).attr('oldvalue');
-    //        if (newvalue != oldvalue) {
-    //            if (col != 0 && isNaN(newvalue)) {
-    //                $(this).css("border-color", "red");
-    //                alert('Sorry, value must be a number!');
-    //                return;
-    //            }
-    //            if (col == 0) {
-    //                if (!newvalue || 0 === newvalue.length) {
-    //                    RemoveUser(oldvalue);
-    //                } else {
-    //                    if (HaveUserName(newvalue)) {
-    //                        alert('User with this name already exists!');
-    //                        return;
-    //                    }
-    //                    ChangeUserValue(newvalue, row, col);
-    //                }
-    //                return;
-    //            }
-    //            ChangeUserValue(newvalue, row, col);
-    //        }
-    //    })
+    $('body').on('change', '.changeUserVal', function () {
+        row = $(this).data('row');
+        col = $(this).data('column');
+        newvalue = $(this).val();
+        oldvalue = $(this).attr('oldvalue');
+        if (newvalue != oldvalue && col == 0) {
+            if (!newvalue || 0 === newvalue.length) {
+                //RemoveUser(oldvalue);
+            } else {
+                if (HaveUserName(newvalue)) {
+                    alert('User with this name already exists!');
+                    return;
+                }
+                ChangeUserName(newvalue, row);
+            }
+        }
+    })
     $('body').on('blur', '.changeUserVal', function () {
         var oldvalue = $(this).attr('oldvalue');
         var td = $(this).parent();
@@ -105,12 +96,12 @@ $(document).ready(function () {
         $('#newUserDialog').attr("style", "display: none");
         $('.addUserButton').attr("style", "");
     }
-    //    function ChangeUserValue(newvalue, row, col) {
-    //        $.get('sclapi.php', { type: 'changeUsersValue', row: row, column: col, newValue: newvalue }, onAjaxSuccess);
-    //        function onAjaxSuccess(data) {
-    //            document.getElementById("usersList").innerHTML = data;
-    //        }
-    //    }
+    function ChangeUserName(newvalue, row) {
+        $.get('sclapi.php', { type: 'changeUserName', row: row, newValue: newvalue }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("usersList").innerHTML = data;
+        }
+    }
     function HaveUserName(username) {
         var result = false;
         $('#usersList').find('td').each(function () {
@@ -286,7 +277,7 @@ $(document).ready(function () {
 
     //#region Interface
     $('.tabs .tab-links a').on('click', function (e) {
-        //HideNewUserDialog();
+        HideNewUserDialog();
         HideNewMaterialDialog();
         var currentAttrValue = $(this).attr('href');
         $('.tabs ' + currentAttrValue).show().siblings().hide();
