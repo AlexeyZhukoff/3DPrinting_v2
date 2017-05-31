@@ -163,38 +163,38 @@ $(document).ready(function () {
     $('body').on('click', '.cancelMButton', function () {
         HideNewMaterialDialog();
     })
-    //    $('body').on('change', '.changeMaterialsVal', function () {
-    //        row = $(this).data('row');
-    //        col = $(this).data('column');
-    //        newvalue = $(this).val();
-    //        oldvalue = $(this).attr('oldvalue');
-    //        if (newvalue != oldvalue) {
-    //            if (col == 0) {
-    //                if (!newvalue || 0 === newvalue.length) {
-    //                    RemoveMaterial(oldvalue);
-    //                } else {
-    //                    if (HaveMaterialName(newvalue)) {
-    //                        alert('Material with this name already exists!');
-    //                        return;
-    //                    }
-    //                    ChangeMaterialName(row, newvalue);
-    //                }
-    //            } else {
-    //                if (isNaN(newvalue)) {
-    //                    $(this).css("border-color", "red");
-    //                    alert('Sorry, value must be a number!');
-    //                    return;
-    //                }
-    //                if (col == 3) {
-    //                    ChangeMaterialPrice(row, newvalue);
-    //                }
-    //                //if (col == 1) {
-    //                //    ChangeMaterialPrice(row, newvalue);
-    //                //}
+    $('body').on('change', '.changeMaterialsVal', function () {
+        row = $(this).data('row');
+        col = $(this).data('column');
+        newvalue = $(this).val();
+        oldvalue = $(this).attr('oldvalue');
+        if (newvalue != oldvalue) {
+            if (col == 0) {
+                if (!newvalue || 0 === newvalue.length) {
+                    //                    RemoveMaterial(oldvalue);
+                } else {
+                    if (HaveMaterialName(newvalue)) {
+                        alert('Material with this name already exists!');
+                        return;
+                    }
+                    ChangeMaterialName(row, newvalue);
+                }
+            } else {
+                //                if (isNaN(newvalue)) {
+                //                    $(this).css("border-color", "red");
+                //                    alert('Sorry, value must be a number!');
+                //                    return;
+                //                }
+                //                if (col == 3) {
+                //                    ChangeMaterialPrice(row, newvalue);
+                //                }
+                //                //if (col == 1) {
+                //                //    ChangeMaterialPrice(row, newvalue);
+                //                //}
 
-    //            }
-    //        }
-    //    })
+            }
+        }
+    })
     $('body').on('blur', '.changeMaterialsVal', function () {
         var oldvalue = $(this).attr('oldvalue');
         var td = $(this).parent();
@@ -232,13 +232,12 @@ $(document).ready(function () {
     //        }
     //        loadUsers();
     //    }
-    //    function ChangeMaterialName(row, newvalue) {
-    //        $.get('sclapi.php', { type: 'changeMaterialName', row: row, newValue: newvalue }, onAjaxSuccess);
-    //        function onAjaxSuccess(data) {
-    //            document.getElementById("materials").innerHTML = data;
-    //        }
-    //        loadUsers();
-    //    }
+    function ChangeMaterialName(row, newvalue) {
+        $.get('sclapi.php', { type: 'changeMaterialName', row: row, newValue: newvalue }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("materials").innerHTML = data;
+        }
+    }
     //    function ChangeMaterialPrice(row, newvalue) {
     //        $.get('sclapi.php', { type: 'changeMaterialPrice', row: row, newValue: newvalue }, onAjaxSuccess);
     //        function onAjaxSuccess(data) {

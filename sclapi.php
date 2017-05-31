@@ -18,8 +18,8 @@
     //    removeMaterial();
     //if($type == Commands::ChangeUsersValue)
     //    changeUsersValue();
-    //if($type == Commands::ChangeMaterialName)
-    //    changeMaterialName();
+    if($type == Commands::ChangeMaterialName)
+        changeMaterialName();
     //if($type == Commands::ChangeMaterialPrice)
     //    changeMaterialPrice();
 
@@ -105,6 +105,18 @@
         setCellValue(SheetNames::Materials, 1, 2, $filename, floatval($materialDiameter), $id);
         setCellValue(SheetNames::Materials, 1, 3, $filename, floatval($materialPrice), $id);
         $result = getSessionHtml($id, SheetNames::Materials, 0, 0);
+        closeDocument($filename, $id);
+
+        echo $result;
+    }
+    function changeMaterialName(){
+        $filename = PrivateConst::File_Name;
+        $row = $_GET[Names::Row];
+        $value = $_GET[Names::NewValue];
+        
+        $id = loadDocument($filename);
+        setCellValue(SheetNames::Materials, $row, 0, $filename, $value, $id);
+        $result = getSessionHtml($id, SheetNames::Materials, -1, -1);
         closeDocument($filename, $id);
 
         echo $result;
@@ -275,18 +287,7 @@
 
     //    getHtml(SheetNames::Users, 0);
     //}
-    //function changeMaterialName(){
-    //    $filename = PrivateConst::File_Name;
-    //    $row = $_GET[Names::Row];
-    //    $value = $_GET[Names::NewValue];
-    //    
-    //    $id = loadDocument($filename);
-    //    setCellValue(SheetNames::Users, 0, $row, $filename, $value, $id);
-    //    setCellValue(SheetNames::Materials, $row, 0, $filename, $value, $id);
-    //    closeDocument($filename, $id);
 
-    //    getHtml(SheetNames::Materials, 3);
-    //}
     //function changeMaterialPrice(){
     //    $filename = PrivateConst::File_Name;
     //    $row = $_GET[Names::Row];
