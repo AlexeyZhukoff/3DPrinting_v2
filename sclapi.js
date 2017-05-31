@@ -25,17 +25,17 @@ $(document).ready(function () {
     //#endregion HTML Export
 
     //#region UsersList
-    //    $('body').on('click', '.addUserButton', function () {
-    //        ShowNewUserDialog();
-    //    })
-    //    $('body').on('click', '.createButton', function () {
-    //        CreateUser($('#newUserName').val());
-    //    })
-    //    $('#newUserName').keyup(function (e) {
-    //        if (e.keyCode == 13) {
-    //            CreateUser($('#newUserName').val());
-    //        }
-    //    })
+    $('body').on('click', '.addUserButton', function () {
+        ShowNewUserDialog();
+    })
+    $('body').on('click', '.createButton', function () {
+        CreateUser($('#newUserName').val());
+    })
+    $('#newUserName').keyup(function (e) {
+        if (e.keyCode == 13) {
+            CreateUser($('#newUserName').val());
+        }
+    })
     //    $('body').on('click', '.cancelButton', function () {
     //        HideNewUserDialog();
     //    })
@@ -72,20 +72,19 @@ $(document).ready(function () {
     //        td.text(oldvalue);
     //    })
 
-    //    function CreateUser(username) {
-    //        if (HaveUserName(username)) {
-    //            alert('User with this name already exists!');
-    //            return;
-    //        }
-    //        HideNewUserDialog();
-    //        if (!username || 0 === username.length)
-    //            return;
-    //        $.get('sclapi.php', { type: 'createUser', newUserName: username }, onAjaxSuccess);
-    //        function onAjaxSuccess(data) {
-    //            document.getElementById("usersList").innerHTML = data;
-    //        }
-    //        loadMaterials();
-    //    }
+    function CreateUser(username) {
+        if (HaveUserName(username)) {
+            alert('User with this name already exists!');
+            return;
+        }
+        HideNewUserDialog();
+        if (!username || 0 === username.length)
+            return;
+        $.get('sclapi.php', { type: 'createUser', newUserName: username }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("usersList").innerHTML = data;
+        }
+    }
     //    function RemoveUser(username) {
     //        $.get('sclapi.php', { type: 'removeUser', userName: username }, onAjaxSuccess);
     //        function onAjaxSuccess(data) {
@@ -97,34 +96,34 @@ $(document).ready(function () {
     //        CreateInnerInput(td, "changeUserVal", row, col);
     //        HideNewUserDialog();
     //    }
-    //    function ShowNewUserDialog() {
-    //        $('#newUserDialog').attr("style", "");
-    //        $('#newUserName').val('');
-    //        $('.addUserButton').attr("style", "display: none");
-    //    }
-    //    function HideNewUserDialog() {
-    //        $('#newUserDialog').attr("style", "display: none");
-    //        $('.addUserButton').attr("style", "");
-    //    }
+    function ShowNewUserDialog() {
+        $('#newUserDialog').attr("style", "");
+        $('#newUserName').val('');
+        $('.addUserButton').attr("style", "display: none");
+    }
+    function HideNewUserDialog() {
+        $('#newUserDialog').attr("style", "display: none");
+        $('.addUserButton').attr("style", "");
+    }
     //    function ChangeUserValue(newvalue, row, col) {
     //        $.get('sclapi.php', { type: 'changeUsersValue', row: row, column: col, newValue: newvalue }, onAjaxSuccess);
     //        function onAjaxSuccess(data) {
     //            document.getElementById("usersList").innerHTML = data;
     //        }
     //    }
-    //    function HaveUserName(username) {
-    //        var result = false;
-    //        $('#usersList').find('td').each(function () {
-    //            var col = $(this).parent().children().index($(this));
-    //            var row = $(this).parent().parent().children().index($(this).parent());
-    //            if (col == 0 && row > 1 && $(this).text() == username) {
-    //                result = true;
-    //                return false;
-    //            }
-    //        });
-    //        return result;
-    //    }
-    //    //#endregion UsersList
+    function HaveUserName(username) {
+        var result = false;
+        $('#usersList').find('td').each(function () {
+            var col = $(this).parent().children().index($(this));
+            var row = $(this).parent().parent().children().index($(this).parent());
+            if (col == 0 && row > 1 && $(this).text() == username) {
+                result = true;
+                return false;
+            }
+        });
+        return result;
+    }
+    //#endregion UsersList
 
     //    //#region MaterialsList
     $('body').on('click', '.addMaterialButton', function () {

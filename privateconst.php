@@ -14,7 +14,7 @@ class SheetNames {
 class Names {
 //    const FormulaColumnName = 'Full Price';
 //    const ColumnNames = 'ABCDEFGHIGKLMNOPQRSTUVWXYZ';
-//    const NewUserName = 'newUserName';
+    const NewUserName = 'newUserName';
     const NewMaterialName = 'newMaterialName';
     const NewMaterialPrice = 'newMaterialPrice';
     const NewMaterialDensity = 'newMaterialDensity';
@@ -27,7 +27,7 @@ class Names {
 //    const NewValue = 'newValue';
 }
 class Commands {
-//    const CreateUser = 'createUser';
+    const CreateUser = 'createUser';
 //    const RemoveUser = 'removeUser';
     const CreateMaterial = 'createMaterial';
 //    const RemoveMaterial = 'removeMaterial';

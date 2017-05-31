@@ -8,8 +8,8 @@
         getHtml(SheetNames::Materials, -1, -1);
     if($type == Commands::GetPrintsHtml)
         getPrintsHtml();
-    //if($type == Commands::CreateUser)
-    //    createUser();
+    if($type == Commands::CreateUser)
+        createUser();
     //if($type == Commands::RemoveUser)
     //    removeUser();
     if($type == Commands::CreateMaterial)
@@ -74,6 +74,21 @@
         }
         $request = get($params, '/exporttohtml');
         return $request['data'];
+    }
+
+    function createUser(){
+        $filename = PrivateConst::File_Name;
+        $userName = $_GET[Names::NewUserName];
+        $id = loadDocument($filename);
+        $firstEmptyRow = 0;
+        do{
+            $userNameValue = getCellValue($id, SheetNames::Users, ++$firstEmptyRow, 0);
+        } while(!empty($userNameValue));
+        setCellValue(SheetNames::Users, $firstEmptyRow, 0, $filename, $userName, $id);
+        $result = getSessionHtml($id, SheetNames::Users, $firstEmptyRow, 1);
+        closeDocument($filename, $id);
+        
+        echo $result;
     }
 
     function createMaterial(){
@@ -219,17 +234,6 @@
         ];
         return $header;
     }
-    //function createUser(){
-    //    $filename = PrivateConst::File_Name;
-    //    $userName = $_GET[Names::NewUserName];
-    //    $id = loadDocument($filename);
-    //    insertRow($id, SheetNames::Users, 1);
-    //    setCellValue(SheetNames::Users, 1, 0, $filename, $userName, $id);
-    //    createFormula($id);
-    //    closeDocument($filename, $id);
-    //    
-    //    getHtml(SheetNames::Users, 0);
-    //}
 
     //function removeUser(){
     //    $filename = PrivateConst::File_Name;
