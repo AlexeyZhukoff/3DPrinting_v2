@@ -36,9 +36,9 @@ $(document).ready(function () {
             CreateUser($('#newUserName').val());
         }
     })
-    //    $('body').on('click', '.cancelButton', function () {
-    //        HideNewUserDialog();
-    //    })
+    $('body').on('click', '.cancelButton', function () {
+        HideNewUserDialog();
+    })
     //    $('body').on('change', '.changeUserVal', function () {
     //        row = $(this).data('row');
     //        col = $(this).data('column');
@@ -65,12 +65,12 @@ $(document).ready(function () {
     //            ChangeUserValue(newvalue, row, col);
     //        }
     //    })
-    //    $('body').on('blur', '.changeUserVal', function () {
-    //        var oldvalue = $(this).attr('oldvalue');
-    //        var td = $(this).parent();
-    //        $(this).remove();
-    //        td.text(oldvalue);
-    //    })
+    $('body').on('blur', '.changeUserVal', function () {
+        var oldvalue = $(this).attr('oldvalue');
+        var td = $(this).parent();
+        $(this).remove();
+        td.text(oldvalue);
+    })
 
     function CreateUser(username) {
         if (HaveUserName(username)) {
@@ -92,10 +92,10 @@ $(document).ready(function () {
     //        }
     //        loadMaterials();
     //    }
-    //    function UsersTableClick(td, row, col) {
-    //        CreateInnerInput(td, "changeUserVal", row, col);
-    //        HideNewUserDialog();
-    //    }
+    function UsersTableClick(td, row, col) {
+        CreateInnerInput(td, "changeUserVal", row, col);
+        HideNewUserDialog();
+    }
     function ShowNewUserDialog() {
         $('#newUserDialog').attr("style", "");
         $('#newUserName').val('');
