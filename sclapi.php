@@ -115,13 +115,38 @@
         $value = $_GET[Names::NewValue];
         
         $id = loadDocument($filename);
+        $oldValue = getCellValue($id, SheetNames::Materials, $row, 0);
         setCellValue(SheetNames::Materials, $row, 0, $filename, $value, $id);
+        $jsonPrintsCells = searchCells(SheetNames::Prints, $oldValue, 1, -1, TRUE, $id);
+        foreach ($jsonPrintsCells as $cell) {
+            setCellValue(SheetNames::Prints, $cell ->RowIndex, 1, $filename, $value, $id);
+        }
         $result = getSessionHtml($id, SheetNames::Materials, -1, -1);
         closeDocument($filename, $id);
 
         echo $result;
     }
-
+    
+    function searchCells($sheetName, $text, $column, $row, $matchCase, $id){
+        $params = array(
+            'id' => $id,
+            'sheetname' => $sheetName,
+            'text' => $text,
+            'matchentirecellcontents' => TRUE,
+            'matchcase' => $matchCase,
+        );
+        if($column > -1){
+            $params['startcolumnindex'] = $column;
+            $params['endcolumnindex'] = $column;
+        }
+        if($row > -1){
+            $params['startrowindex'] = $row;
+            $params['endrowindex'] = $row;
+        }
+        $request = get($params, '/searchtext');
+        $json = json_decode ($request['data']);
+        return $json;
+    }
     function insertRow($id, $sheetName, $row){
         $params = array(
             'id' => $id,
