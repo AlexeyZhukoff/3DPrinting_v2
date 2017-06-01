@@ -88,17 +88,20 @@
         $request = get($params, '/exporttohtml');
         return $request['data'];
     }
-
+    function findFirstEmptyRow($id, $sheetName, $column){
+        $firstEmptyRow = 0;
+        do{
+            $userNameValue = getCellValue($id, $sheetName, ++$firstEmptyRow, $column);
+        } while(!empty($userNameValue));
+        return $firstEmptyRow;
+    }
     function createPrinting(){
         $filename = PrivateConst::File_Name;
         $userName = $_GET[Names::NewUserName];
         $materialName = $_GET[Names::NewMaterialName];
         $length = $_GET[Names::Length];
         $id = loadDocument($filename);
-        $firstEmptyRow = 0;
-        do{
-            $userNameValue = getCellValue($id, SheetNames::Prints, ++$firstEmptyRow, 0);
-        } while(!empty($userNameValue));
+        $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         setCellValue(SheetNames::Prints, $firstEmptyRow, 0, $filename, $userName, $id);
         setCellValue(SheetNames::Prints, $firstEmptyRow, 1, $filename, $materialName, $id);
         setCellValue(SheetNames::Prints, $firstEmptyRow, 2, $filename, floatval($length), $id);
@@ -114,10 +117,7 @@
         
         $id = loadDocument($filename);
         setCellValue(SheetNames::Prints, $row, 2, $filename, floatval($value), $id);
-        $firstEmptyRow = 0;
-        do{
-            $userNameValue = getCellValue($id, SheetNames::Prints, ++$firstEmptyRow, 0);
-        } while(!empty($userNameValue));
+        $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
         closeDocument($filename, $id);
 
@@ -130,10 +130,7 @@
         
         $id = loadDocument($filename);
         setCellValue(SheetNames::Prints, $row, 0, $filename, $value, $id);
-        $firstEmptyRow = 0;
-        do{
-            $userNameValue = getCellValue($id, SheetNames::Prints, ++$firstEmptyRow, 0);
-        } while(!empty($userNameValue));
+        $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
         closeDocument($filename, $id);
 
@@ -146,10 +143,7 @@
         
         $id = loadDocument($filename);
         setCellValue(SheetNames::Prints, $row, 1, $filename, $value, $id);
-        $firstEmptyRow = 0;
-        do{
-            $userNameValue = getCellValue($id, SheetNames::Prints, ++$firstEmptyRow, 0);
-        } while(!empty($userNameValue));
+        $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
         closeDocument($filename, $id);
 
@@ -160,10 +154,7 @@
         $filename = PrivateConst::File_Name;
         $userName = $_GET[Names::NewUserName];
         $id = loadDocument($filename);
-        $firstEmptyRow = 0;
-        do{
-            $userNameValue = getCellValue($id, SheetNames::Users, ++$firstEmptyRow, 0);
-        } while(!empty($userNameValue));
+        $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Users, 0);
         setCellValue(SheetNames::Users, $firstEmptyRow, 0, $filename, $userName, $id);
         $result = getSessionHtml($id, SheetNames::Users, $firstEmptyRow, 1);
         closeDocument($filename, $id);
@@ -181,11 +172,8 @@
         foreach ($jsonPrintsCells as $cell) {
             setCellValue(SheetNames::Prints, $cell ->RowIndex, 0, $filename, $newValue, $id);
         }
-        $firstEmptyRow = 0;
-        do{
-            $userNameValue = getCellValue($id, SheetNames::Users, ++$firstEmptyRow, 0);
-        } while(!empty($userNameValue));
-        $result = getSessionHtml($id, SheetNames::Users, $firstEmptyRow-1, 1);
+        $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Users, 0);
+        $result = getSessionHtml($id, SheetNames::Users, --$firstEmptyRow, 1);
         closeDocument($filename, $id);
 
         echo $result;
@@ -204,7 +192,7 @@
         setCellValue(SheetNames::Materials, 1, 1, $filename, floatval($materialDensity), $id);
         setCellValue(SheetNames::Materials, 1, 2, $filename, floatval($materialDiameter), $id);
         setCellValue(SheetNames::Materials, 1, 3, $filename, floatval($materialPrice), $id);
-        $result = getSessionHtml($id, SheetNames::Materials, 0, 0);
+        $result = getSessionHtml($id, SheetNames::Materials, -1, -1);
         closeDocument($filename, $id);
 
         echo $result;
