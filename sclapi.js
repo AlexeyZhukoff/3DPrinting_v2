@@ -39,42 +39,6 @@ $(document).ready(function () {
             $('.createPButton').click();
         }
     })
-    function CreatePrinting(username, materialname, length) {
-        if (isNaN(length) || 0 === length.length) {
-            alert('Sorry, "Length of used material" must be a number!');
-            return;
-        }
-        $.get('sclapi.php', { type: 'createPrinting', newUserName: username, newMaterialName: materialname, length: length }, onAjaxSuccess);
-        function onAjaxSuccess(data) {
-            document.getElementById("printsList").innerHTML = data;
-        }
-        HideNewPrintingDialog();
-    }
-    function ShowNewPrintingDialog() {
-        $('#newPrintingDialog').attr("style", "");
-        document.getElementById("printingUser").innerHTML = GetUsers();
-        document.getElementById("usedMaterial").innerHTML = GetMaterials();
-        $('#materialLength').val('');
-        $('.addPrintButton').attr("style", "display: none");
-    }
-    function HideNewPrintingDialog() {
-        $('#newPrintingDialog').attr("style", "display: none");
-        $('.addPrintButton').attr("style", "");
-    }
-    function PrintsTableClick(td, row, col) {
-        if (col > 2)
-            return;
-        if (col == 0) {
-            CreateInnerSelector(td, "changePrintingUser", row, col, GetUsersOptions());
-        }
-        if (col == 1) {
-            CreateInnerSelector(td, "changePrintingMaterial", row, col, GetMaterialsOptions());
-        }
-        if (col == 2) {
-            CreateInnerInput(td, "changePrintsVal", row, col);
-        }
-        HideNewPrintingDialog();
-    }
     $('body').on('change', '.changePrintingUser', function () {
         row = $(this).data('row');
         newvalue = $(this).val();
@@ -122,6 +86,42 @@ $(document).ready(function () {
         $(this).remove();
         td.text(oldvalue);
     })
+    function CreatePrinting(username, materialname, length) {
+        if (isNaN(length) || 0 === length.length) {
+            alert('Sorry, "Length of used material" must be a number!');
+            return;
+        }
+        $.get('sclapi.php', { type: 'createPrinting', newUserName: username, newMaterialName: materialname, length: length }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("printsList").innerHTML = data;
+        }
+        HideNewPrintingDialog();
+    }
+    function ShowNewPrintingDialog() {
+        $('#newPrintingDialog').attr("style", "");
+        document.getElementById("printingUser").innerHTML = GetUsers();
+        document.getElementById("usedMaterial").innerHTML = GetMaterials();
+        $('#materialLength').val('');
+        $('.addPrintButton').attr("style", "display: none");
+    }
+    function HideNewPrintingDialog() {
+        $('#newPrintingDialog').attr("style", "display: none");
+        $('.addPrintButton').attr("style", "");
+    }
+    function PrintsTableClick(td, row, col) {
+        if (col > 2)
+            return;
+        if (col == 0) {
+            CreateInnerSelector(td, "changePrintingUser", row, col, GetUsersOptions());
+        }
+        if (col == 1) {
+            CreateInnerSelector(td, "changePrintingMaterial", row, col, GetMaterialsOptions());
+        }
+        if (col == 2) {
+            CreateInnerInput(td, "changePrintsVal", row, col);
+        }
+        HideNewPrintingDialog();
+    }
     function changePrintingUser(newvalue, row) {
         $.get('sclapi.php', { type: 'changePrintingUser', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#printsList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
@@ -180,7 +180,6 @@ $(document).ready(function () {
         $(this).remove();
         td.text(oldvalue);
     })
-
     function CreateUser(username) {
         if (HaveUserName(username)) {
             alert('User with this name already exists!');
@@ -194,13 +193,6 @@ $(document).ready(function () {
             document.getElementById("usersList").innerHTML = data;
         }
     }
-    //    function RemoveUser(username) {
-    //        $.get('sclapi.php', { type: 'removeUser', userName: username }, onAjaxSuccess);
-    //        function onAjaxSuccess(data) {
-    //            document.getElementById("usersList").innerHTML = data;
-    //        }
-    //        loadMaterials();
-    //    }
     function UsersTableClick(td, row, col) {
         CreateInnerInput(td, "changeUserVal", row, col);
         HideNewUserDialog();
@@ -249,7 +241,6 @@ $(document).ready(function () {
         });
         return result;
     }
-
     //#endregion UsersList
 
     //#region MaterialsList
@@ -354,13 +345,6 @@ $(document).ready(function () {
         CreateInnerInput(td, "changeMaterialsVal", row, col);
         HideNewMaterialDialog();
     }
-    //    function RemoveMaterial(materialname) {
-    //        $.get('sclapi.php', { type: 'removeMaterial', materialName: materialname }, onAjaxSuccess);
-    //        function onAjaxSuccess(data) {
-    //            document.getElementById("materials").innerHTML = data;
-    //        }
-    //        loadUsers();
-    //    }
     function ChangeMaterialName(row, newvalue) {
         $.get('sclapi.php', { type: 'changeMaterialName', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#materials") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
@@ -426,7 +410,6 @@ $(document).ready(function () {
         });
         return result;
     }
-
     //#endregion MaterialsList
 
     //#region Interface

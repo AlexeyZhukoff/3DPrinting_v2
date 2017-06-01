@@ -12,18 +12,12 @@ class SheetNames {
 //     const Charts = 'Charts';
 }
 class Names {
-//    const FormulaColumnName = 'Full Price';
-//    const ColumnNames = 'ABCDEFGHIGKLMNOPQRSTUVWXYZ';
     const NewUserName = 'newUserName';
     const NewMaterialName = 'newMaterialName';
     const NewMaterialPrice = 'newMaterialPrice';
     const NewMaterialDensity = 'newMaterialDensity';
     const NewMaterialDiameter = 'newMaterialDiameter';
-
-//    const UserName = 'userName';
-//    const MaterialName = 'materialName';
     const Row = 'row';
-    const Column = 'column';
     const NewValue = 'newValue';
     const Length = 'length';
     const FirstEmptyRow = 'firstEmptyRow';
@@ -31,9 +25,7 @@ class Names {
 class Commands {
     const CreatePrinting = 'createPrinting';
     const CreateUser = 'createUser';
-//    const RemoveUser = 'removeUser';
     const CreateMaterial = 'createMaterial';
-//    const RemoveMaterial = 'removeMaterial';
     const GetPrintsHtml = 'getPrintsHtml';
     const GetUsersHtml = 'getUsersHtml';
     const GetMaterialsHtml = 'getMaterialsHtml';

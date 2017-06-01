@@ -18,12 +18,8 @@
         changePrintingUser();
     if($type == Commands::ChangePrintingMaterial)
         changePrintingMaterial();
-    //if($type == Commands::RemoveUser)
-    //    removeUser();
     if($type == Commands::CreateMaterial)
         createMaterial();
-    //if($type == Commands::RemoveMaterial)
-    //    removeMaterial();
     if($type == Commands::ChangeUserName)
         changeUserName();
     if($type == Commands::ChangeMaterialName)
@@ -34,7 +30,6 @@
         changeMaterialDensity();
     if($type == Commands::ChangeMaterialDiameter)
         changeMaterialDiameter();
-
 
     function getPrintsHtml(){
         $filename = PrivateConst::File_Name;
@@ -81,6 +76,7 @@
         $request = get($params, '/exporttohtml');
         return $request['data'];
     }
+
     function findFirstEmptyRow($id, $sheetName, $column){
         if(in_array(Names::FirstEmptyRow, $_GET)){
             return $_GET[Names::FirstEmptyRow];
@@ -376,100 +372,4 @@
         ];
         return $header;
     }
-
-    //function removeUser(){
-    //    $filename = PrivateConst::File_Name;
-    //    $userName = $_GET[Names::UserName];
-    //    $id = loadDocument($filename);
-    //    $row = searchRow(SheetNames::Users, $userName, $id);
-    //    removeRow($id, SheetNames::Users, $row);
-    //    closeDocument($filename, $id);
-
-    //    getHtml(SheetNames::Users, 0);
-    //}
-    //function removeMaterial(){
-    //    $filename = PrivateConst::File_Name;
-    //    $materialName = $_GET[Names::MaterialName];
-    //    $id = loadDocument($filename);
-    //    $row = searchRow(SheetNames::Materials, $materialName, $id);
-    //    removeRow($id, SheetNames::Materials, $row);
-    //    $column = searchColumn(SheetNames::Users, $materialName, $id);
-    //    removeColumn($id, SheetNames::Users, $column);
-    //    $formulaColumn = searchColumn(SheetNames::Users, Names::FormulaColumnName, $id);
-    //    updateCellsFormulasAfterRemove(SheetNames::Users, $formulaColumn, $id);
-
-    //    closeDocument($filename, $id);
-    //    getHtml(SheetNames::Materials, 3);
-    //}
-
-
-
-    //function searchRow($sheetName, $text, $id){
-    //    $params = array(
-    //        'id' => $id,
-    //        'sheetname' => $sheetName,
-    //        'text' => $text,
-    //        'matchentirecellcontents' => TRUE,
-    //        'matchcase' => FALSE,
-    //    );
-
-    //    $request = get($params, '/searchtext');
-    //    $json = json_decode ($request['data']);
-    //    
-    //    $result = array();
-    //    
-    //    foreach ($json as $value) {
-    //        $result[] = $value ->RowIndex;
-    //    }
-    //    return $result[0];
-    //}
-    //function searchColumn($sheetName, $text, $id){
-    //    $params = array(
-    //        'id' => $id,
-    //        'sheetname' => $sheetName,
-    //        'text' => $text,
-    //        'matchentirecellcontents' => TRUE,
-    //        'matchcase' => FALSE,
-    //    );
-
-    //    $request = get($params, '/searchtext');
-    //    $json = json_decode ($request['data']);
-    //    
-    //    $result = array();
-    //    
-    //    foreach ($json as $value) {
-    //        $result[] = $value ->ColumnIndex;
-    //    }
-    //    return $result[0];
-    //}    
-    //function removeRow($id, $sheetName, $row){
-    //    $params = array(
-    //        'id' => $id,
-    //        'sheetname' => $sheetName,
-    //        'startindex' => $row,
-    //        'count' => 1,
-    //    );
-    //    $request = delete($params, "/deleterows");
-    //    return $request;
-    //}
-    //function removeColumn($id, $sheetName, $column){
-    //    $params = array(
-    //        'id' => $id,
-    //        'sheetname' => $sheetName,
-    //        'startindex' => $column,
-    //        'count' => 1,
-    //    );
-    //    $request = delete($params, "/deletecolumns")['data'];
-    //    return $request;
-    //}
-    //function insertColumn($id, $sheetName, $column){
-    //    $params = array(
-    //        'id' => $id,
-    //        'sheetname' => $sheetName,
-    //        'startindex' => $column,
-    //        'count' => 1,
-    //        'formatmode' => "FormatAsNext",
-    //    );
-    //    return put($params, "/insertcolumns");
-    //}   
 ?>
