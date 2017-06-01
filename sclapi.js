@@ -123,19 +123,19 @@ $(document).ready(function () {
         td.text(oldvalue);
     })
     function changePrintingUser(newvalue, row) {
-        $.get('sclapi.php', { type: 'changePrintingUser', row: row, newValue: newvalue }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'changePrintingUser', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#printsList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
         }
     }
     function changePrintingMaterial(newvalue, row) {
-        $.get('sclapi.php', { type: 'changePrintingMaterial', row: row, newValue: newvalue }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'changePrintingMaterial', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#printsList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
         }
     }
     function ChangePrintingLength(newvalue, row) {
-        $.get('sclapi.php', { type: 'changePrintingLength', row: row, length: newvalue }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'changePrintingLength', row: row, length: newvalue, firstEmptyRow: GetRowsCount("#printsList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
         }
@@ -189,7 +189,7 @@ $(document).ready(function () {
         HideNewUserDialog();
         if (!username || 0 === username.length)
             return;
-        $.get('sclapi.php', { type: 'createUser', newUserName: username }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'createUser', newUserName: username, firstEmptyRow: GetRowsCount("#usersList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("usersList").innerHTML = data;
         }
@@ -215,7 +215,7 @@ $(document).ready(function () {
         $('.addUserButton').attr("style", "");
     }
     function ChangeUserName(newvalue, row) {
-        $.get('sclapi.php', { type: 'changeUserName', row: row, newValue: newvalue }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'changeUserName', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#usersList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("usersList").innerHTML = data;
         }
@@ -282,7 +282,7 @@ $(document).ready(function () {
             return;
         }
         HideNewMaterialDialog();
-        $.get('sclapi.php', { type: 'createMaterial', newMaterialName: materialname, newMaterialPrice: materialprice, newMaterialDensity: materialdensity, newMaterialDiameter: materialdiameter }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'createMaterial', newMaterialName: materialname, newMaterialPrice: materialprice, newMaterialDensity: materialdensity, newMaterialDiameter: materialdiameter, firstEmptyRow: GetRowsCount("#materials") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("materials").innerHTML = data;
         }
@@ -362,25 +362,25 @@ $(document).ready(function () {
     //        loadUsers();
     //    }
     function ChangeMaterialName(row, newvalue) {
-        $.get('sclapi.php', { type: 'changeMaterialName', row: row, newValue: newvalue }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'changeMaterialName', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#materials") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("materials").innerHTML = data;
         }
     }
     function ChangeMaterialPrice(row, newvalue) {
-        $.get('sclapi.php', { type: 'changeMaterialPrice', row: row, newValue: newvalue }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'changeMaterialPrice', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#materials") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("materials").innerHTML = data;
         }
     }
     function ChangeMaterialDensity(row, newvalue) {
-        $.get('sclapi.php', { type: 'changeMaterialDensity', row: row, newValue: newvalue }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'changeMaterialDensity', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#materials") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("materials").innerHTML = data;
         }
     }
     function ChangeMaterialDiameter(row, newvalue) {
-        $.get('sclapi.php', { type: 'changeMaterialDiameter', row: row, newValue: newvalue }, onAjaxSuccess);
+        $.get('sclapi.php', { type: 'changeMaterialDiameter', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#materials") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("materials").innerHTML = data;
         }
@@ -475,6 +475,9 @@ $(document).ready(function () {
         $(td).append($(selector));
         document.getElementById(name).value = defaultValue;
         $(td).find('select').focus();
+    }
+    function GetRowsCount(containerName) {
+        return $(containerName).find('table')[0].rows.length;
     }
     //#endregion Interface
 });

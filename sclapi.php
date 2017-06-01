@@ -41,13 +41,9 @@
         $sheetName = SheetNames::Prints;
         $id = loadDocument($filename);
         
-        $rowLimit = 0;
-        
-        do{
-            $userNameValue = getCellValue($id, $sheetName, ++$rowLimit, 0);
-        } while(!empty($userNameValue));
-        
-        $result = getSessionHtml($id, $sheetName, $rowLimit-1, 3);
+        $firstEmptyRow = findFirstEmptyRow($id, $sheetName, 0);
+        $rowLimit = $firstEmptyRow - 1;
+        $result = getSessionHtml($id, $sheetName, $rowLimit, 3);
         closeDocument($filename, $id);
         
         echo $result;
@@ -56,12 +52,9 @@
         $filename = PrivateConst::File_Name;
         $sheetName = SheetNames::Users;
         $id = loadDocument($filename);
-        $rowLimit = 0;
-        do{
-            $userNameValue = getCellValue($id, $sheetName, ++$rowLimit, 0);
-        } while(!empty($userNameValue));
-
-        $result = getSessionHtml($id, $sheetName, $rowLimit-1, 1);
+        $firstEmptyRow = findFirstEmptyRow($id, $sheetName, 0);
+        $rowLimit = $firstEmptyRow - 1;
+        $result = getSessionHtml($id, $sheetName, $rowLimit, 1);
         closeDocument($filename, $id);
         
         echo $result;
@@ -89,6 +82,9 @@
         return $request['data'];
     }
     function findFirstEmptyRow($id, $sheetName, $column){
+        if(in_array(Names::FirstEmptyRow, $_GET)){
+            return $_GET[Names::FirstEmptyRow];
+        }
         $firstEmptyRow = 0;
         do{
             $userNameValue = getCellValue($id, $sheetName, ++$firstEmptyRow, $column);

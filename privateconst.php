@@ -26,6 +26,7 @@ class Names {
     const Column = 'column';
     const NewValue = 'newValue';
     const Length = 'length';
+    const FirstEmptyRow = 'firstEmptyRow';
 }
 class Commands {
     const CreatePrinting = 'createPrinting';
