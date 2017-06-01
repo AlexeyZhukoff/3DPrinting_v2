@@ -42,5 +42,7 @@ class Commands {
     const ChangeMaterialDensity = 'changeMaterialDensity';
     const ChangeMaterialDiameter = 'changeMaterialDiameter';
     const ChangePrintingLength = 'changePrintingLength';
+    const ChangePrintingUser = 'changePrintingUser';
+    const ChangePrintingMaterial = 'changePrintingMaterial';
 }
 ?>

@@ -14,6 +14,10 @@
         createUser();
     if($type == Commands::ChangePrintingLength)
         changePrintingLength();
+    if($type == Commands::ChangePrintingUser)
+        changePrintingUser();
+    if($type == Commands::ChangePrintingMaterial)
+        changePrintingMaterial();
     //if($type == Commands::RemoveUser)
     //    removeUser();
     if($type == Commands::CreateMaterial)
@@ -110,6 +114,38 @@
         
         $id = loadDocument($filename);
         setCellValue(SheetNames::Prints, $row, 2, $filename, floatval($value), $id);
+        $firstEmptyRow = 0;
+        do{
+            $userNameValue = getCellValue($id, SheetNames::Prints, ++$firstEmptyRow, 0);
+        } while(!empty($userNameValue));
+        $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
+        closeDocument($filename, $id);
+
+        echo $result;
+    }
+    function changePrintingUser(){
+        $filename = PrivateConst::File_Name;
+        $row = $_GET[Names::Row];
+        $value = $_GET[Names::NewValue];
+        
+        $id = loadDocument($filename);
+        setCellValue(SheetNames::Prints, $row, 0, $filename, $value, $id);
+        $firstEmptyRow = 0;
+        do{
+            $userNameValue = getCellValue($id, SheetNames::Prints, ++$firstEmptyRow, 0);
+        } while(!empty($userNameValue));
+        $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
+        closeDocument($filename, $id);
+
+        echo $result;
+    }
+    function changePrintingMaterial(){
+        $filename = PrivateConst::File_Name;
+        $row = $_GET[Names::Row];
+        $value = $_GET[Names::NewValue];
+        
+        $id = loadDocument($filename);
+        setCellValue(SheetNames::Prints, $row, 1, $filename, $value, $id);
         $firstEmptyRow = 0;
         do{
             $userNameValue = getCellValue($id, SheetNames::Prints, ++$firstEmptyRow, 0);

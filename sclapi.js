@@ -75,6 +75,22 @@ $(document).ready(function () {
         }
         HideNewPrintingDialog();
     }
+    $('body').on('change', '.changePrintingUser', function () {
+        row = $(this).data('row');
+        newvalue = $(this).val();
+        oldvalue = $(this).attr('oldvalue');
+        if (newvalue != oldvalue) {
+            changePrintingUser(newvalue, row);
+        }
+    })
+    $('body').on('change', '.changePrintingMaterial', function () {
+        row = $(this).data('row');
+        newvalue = $(this).val();
+        oldvalue = $(this).attr('oldvalue');
+        if (newvalue != oldvalue) {
+            changePrintingMaterial(newvalue, row);
+        }
+    })
     $('body').on('change', '.changePrintsVal', function () {
         row = $(this).data('row');
         newvalue = $(this).val();
@@ -106,6 +122,18 @@ $(document).ready(function () {
         $(this).remove();
         td.text(oldvalue);
     })
+    function changePrintingUser(newvalue, row) {
+        $.get('sclapi.php', { type: 'changePrintingUser', row: row, newValue: newvalue }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("printsList").innerHTML = data;
+        }
+    }
+    function changePrintingMaterial(newvalue, row) {
+        $.get('sclapi.php', { type: 'changePrintingMaterial', row: row, newValue: newvalue }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("printsList").innerHTML = data;
+        }
+    }
     function ChangePrintingLength(newvalue, row) {
         $.get('sclapi.php', { type: 'changePrintingLength', row: row, length: newvalue }, onAjaxSuccess);
         function onAjaxSuccess(data) {
