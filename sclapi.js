@@ -2,14 +2,15 @@ $(document).ready(function () {
     loadUsers();
     loadMaterials();
     loadPrints();
-
+    $('.addUserButton').attr("style", "");
+    $('.addMaterialButton').attr("style", "");
+    $('.addPrintButton').attr("style", "");
     //#region HTML Export
     function loadUsers() {
         $('.addUserButton').attr("style", "display: none");
         $.get('sclapi.php', { type: 'getUsersHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("usersList").innerHTML = data;
-            $('.addUserButton').attr("style", "");
         }
     }
     function loadMaterials() {
@@ -17,7 +18,6 @@ $(document).ready(function () {
         $.get('sclapi.php', { type: 'getMaterialsHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("materials").innerHTML = data;
-            $('.addMaterialButton').attr("style", "");
         }
     }
     function loadPrints() {
@@ -25,7 +25,6 @@ $(document).ready(function () {
         $.get('sclapi.php', { type: 'getPrintsHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
-            $('.addPrintButton').attr("style", "");
         }
     }
     //#endregion HTML Export
