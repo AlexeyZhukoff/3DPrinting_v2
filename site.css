@@ -47,10 +47,11 @@
 #newMaterialPrice{
     width: 100px;
     float: right;
+    border: 1px solid #FF6934;
 }
 #printingUser,
 #usedMaterial{
-    width: 104px;
+    width: 102px;
 }
 
  .dialogText{
@@ -65,3 +66,6 @@
     margin-top: 8px;
     float: right;
 }
+/*#printsList > table, #usersList > table, #materials > table{
+    border: 1px solid #FF6934;
+}*/
