@@ -5,21 +5,27 @@ $(document).ready(function () {
 
     //#region HTML Export
     function loadUsers() {
+        $('.addUserButton').attr("style", "display: none");
         $.get('sclapi.php', { type: 'getUsersHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("usersList").innerHTML = data;
+            $('.addUserButton').attr("style", "");
         }
     }
     function loadMaterials() {
+        $('.addMaterialButton').attr("style", "display: none");
         $.get('sclapi.php', { type: 'getMaterialsHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("materials").innerHTML = data;
+            $('.addMaterialButton').attr("style", "");
         }
     }
     function loadPrints() {
+        $('.addPrintButton').attr("style", "display: none");
         $.get('sclapi.php', { type: 'getPrintsHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
+            $('.addPrintButton').attr("style", "");
         }
     }
     //#endregion HTML Export
@@ -89,6 +95,14 @@ $(document).ready(function () {
     function CreatePrinting(username, materialname, length) {
         if (isNaN(length) || 0 === length.length) {
             alert('Sorry, "Length of used material" must be a number!');
+            return;
+        }
+        if (!username || 0 === username.length) {
+            alert('Please create "User" to may select!');
+            return;
+        }
+        if (!materialname || 0 === materialname.length) {
+            alert('Please create "Material" to may select!');
             return;
         }
         $.get('sclapi.php', { type: 'createPrinting', newUserName: username, newMaterialName: materialname, length: length }, onAjaxSuccess);

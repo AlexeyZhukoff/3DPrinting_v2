@@ -74,6 +74,9 @@
             $params['endcolumnindex'] = $columnLimit;
         }
         $request = get($params, '/exporttohtml');
+        if($request['status'] != 200){
+            $request = get($params, '/exporttohtml');
+        } 
         return $request['data'];
     }
 
