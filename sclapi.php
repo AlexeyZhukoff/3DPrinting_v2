@@ -39,9 +39,10 @@
         $firstEmptyRow = findFirstEmptyRow($id, $sheetName, 0);
         $rowLimit = $firstEmptyRow - 1;
         $result = getSessionHtml($id, $sheetName, $rowLimit, 3);
-        closeDocument($filename, $id);
-        
-        echo $result;
+        if($result['status'] == 200){
+            echo $result['data'];
+        }
+            //closeDocument($filename, $id);
     }
     function getUsersHtml(){
         $filename = PrivateConst::File_Name;
@@ -50,17 +51,19 @@
         $firstEmptyRow = findFirstEmptyRow($id, $sheetName, 0);
         $rowLimit = $firstEmptyRow - 1;
         $result = getSessionHtml($id, $sheetName, $rowLimit, 1);
-        closeDocument($filename, $id);
-        
-        echo $result;
+        if($result['status'] == 200){
+            echo $result['data'];
+        }
+            //closeDocument($filename, $id);
     }
     function getHtml($sheetName, $rowLimit, $columnLimit){
         $filename = PrivateConst::File_Name;
         $id = loadDocument($filename);
         $result = getSessionHtml($id, $sheetName, $rowLimit, $columnLimit);
-        closeDocument($filename, $id);
-        
-        echo $result;
+        if($result['status'] == 200){
+            echo $result['data'];
+        }
+            //closeDocument($filename, $id);
     }
     function getSessionHtml($id, $sheetName, $rowLimit, $columnLimit){
         $params = array(
@@ -74,10 +77,7 @@
             $params['endcolumnindex'] = $columnLimit;
         }
         $request = get($params, '/exporttohtml');
-        if($request['status'] != 200){
-            $request = get($params, '/exporttohtml');
-        } 
-        return $request['data'];
+        return $request;
     }
 
     function findFirstEmptyRow($id, $sheetName, $column){
@@ -101,9 +101,10 @@
         setCellValue(SheetNames::Prints, $firstEmptyRow, 1, $filename, $materialName, $id);
         setCellValue(SheetNames::Prints, $firstEmptyRow, 2, $filename, floatval($length), $id);
         $result = getSessionHtml($id, SheetNames::Prints, $firstEmptyRow, 3);
-        closeDocument($filename, $id);
-       
-        echo $result;
+        if($result['status'] == 200){
+            echo $result['data'];
+        }
+            closeDocument($filename, $id);
     }
     function changePrintingLength(){
         $filename = PrivateConst::File_Name;
@@ -114,9 +115,10 @@
         setCellValue(SheetNames::Prints, $row, 2, $filename, floatval($value), $id);
         $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
-        closeDocument($filename, $id);
-
-        echo $result;
+        if($result['status'] == 200){
+            echo $result['data'];
+        }
+            closeDocument($filename, $id);
     }
     function changePrintingUser(){
         $filename = PrivateConst::File_Name;
@@ -127,9 +129,10 @@
         setCellValue(SheetNames::Prints, $row, 0, $filename, $value, $id);
         $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
-        closeDocument($filename, $id);
-
-        echo $result;
+        if($result['status'] == 200){
+            echo $result['data'];
+        }
+            closeDocument($filename, $id);
     }
     function changePrintingMaterial(){
         $filename = PrivateConst::File_Name;
@@ -140,9 +143,10 @@
         setCellValue(SheetNames::Prints, $row, 1, $filename, $value, $id);
         $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
-        closeDocument($filename, $id);
-
-        echo $result;
+        if($result['status'] == 200){
+            echo $result['data'];
+        }
+            closeDocument($filename, $id);
     }
 
     function createUser(){
@@ -152,9 +156,10 @@
         $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Users, 0);
         setCellValue(SheetNames::Users, $firstEmptyRow, 0, $filename, $userName, $id);
         $result = getSessionHtml($id, SheetNames::Users, $firstEmptyRow, 1);
-        closeDocument($filename, $id);
-        
-        echo $result;
+        if($result['status'] == 200){
+            echo $result['data'];
+        }
+            closeDocument($filename, $id);
     }
     function changeUserName(){
         $filename = PrivateConst::File_Name;
@@ -169,9 +174,10 @@
         }
         $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Users, 0);
         $result = getSessionHtml($id, SheetNames::Users, --$firstEmptyRow, 1);
-        closeDocument($filename, $id);
-
-        echo $result;
+        if($result['status'] == 200){
+            closeDocument($filename, $id);
+        }
+        echo $result['data'];
     }
 
     function createMaterial(){
@@ -188,9 +194,10 @@
         setCellValue(SheetNames::Materials, 1, 2, $filename, floatval($materialDiameter), $id);
         setCellValue(SheetNames::Materials, 1, 3, $filename, floatval($materialPrice), $id);
         $result = getSessionHtml($id, SheetNames::Materials, -1, -1);
-        closeDocument($filename, $id);
-
-        echo $result;
+        if($result['status'] == 200){
+            closeDocument($filename, $id);
+        }
+        echo $result['data'];
     }
     function changeMaterialName(){
         $filename = PrivateConst::File_Name;

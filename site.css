@@ -21,3 +21,47 @@
 #printingUser, #usedMaterial{
     width: 75px;
 }
+#newMaterialDialog, #newUserDialog, #newPrintingDialog {
+    line-height: 22px;
+    margin-top: 15px;
+}
+#newPrintingDialog {
+    width: 340px;
+    height: 86px;
+}
+#newUserDialog {
+    width: 320px;
+    height: 42px;
+}
+#newMaterialDialog {
+    width: 355px;
+    height: 108px;
+}
+#printingUser,
+#usedMaterial,
+#materialLength,
+#newUserName,
+#newMaterialName,
+#newMaterialDensity,
+#newMaterialDiameter,
+#newMaterialPrice{
+    width: 100px;
+    float: right;
+}
+#printingUser,
+#usedMaterial{
+    width: 104px;
+}
+
+ .dialogText{
+    margin-top: 15px;
+}
+.cancelPButton,
+.createPButton,
+.cancelButton,
+.createButton,
+.cancelMButton,
+.createMButton{
+    margin-top: 8px;
+    float: right;
+}
