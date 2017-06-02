@@ -1,30 +1,30 @@
 $(document).ready(function () {
+    $('.addUserButton').attr("style", "display: none");
+    $('.addMaterialButton').attr("style", "display: none");
+    $('.addPrintButton').attr("style", "display: none");
     loadUsers();
     loadMaterials();
     loadPrints();
-    $('.addUserButton').attr("style", "");
-    $('.addMaterialButton').attr("style", "");
-    $('.addPrintButton').attr("style", "");
     //#region HTML Export
     function loadUsers() {
-        $('.addUserButton').attr("style", "display: none");
         $.get('sclapi.php', { type: 'getUsersHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("usersList").innerHTML = data;
         }
     }
     function loadMaterials() {
-        $('.addMaterialButton').attr("style", "display: none");
         $.get('sclapi.php', { type: 'getMaterialsHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("materials").innerHTML = data;
         }
     }
     function loadPrints() {
-        $('.addPrintButton').attr("style", "display: none");
         $.get('sclapi.php', { type: 'getPrintsHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
+            $('.addUserButton').attr("style", "");
+            $('.addMaterialButton').attr("style", "");
+            $('.addPrintButton').attr("style", "");
         }
     }
     //#endregion HTML Export
@@ -108,6 +108,7 @@ $(document).ready(function () {
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
         }
+        loadUsers();
         HideNewPrintingDialog();
     }
     function ShowNewPrintingDialog() {
@@ -434,6 +435,7 @@ $(document).ready(function () {
         $('.tabs ' + currentAttrValue).show().siblings().hide();
         $(this).parent('li').addClass('active').siblings().removeClass('active');
         e.preventDefault();
+        $("#usersChart").show();
     });
     $('body').on('click', 'td', function () {
         if ($(this).children().length > 0)

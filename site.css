@@ -66,6 +66,14 @@
     margin-top: 8px;
     float: right;
 }
-/*#printsList > table, #usersList > table, #materials > table{
-    border: 1px solid #FF6934;
-}*/
+h1 {
+    margin: 0 auto;
+    display: block;
+    width: calc(50% - 200px);
+    font-family: Arial;
+    color: #4c4c4c;
+}
+#usersChart{
+    width: 50%;
+    float: right;
+}

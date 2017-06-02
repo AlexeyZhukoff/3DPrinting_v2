@@ -1,13 +1,18 @@
 /*----- Tabs -----*/
 .tabs {
-    width:100%;
-    display:inline-block;
+    width: calc(50% - 2px);
+    display: block;
+    margin: 0 auto;
+}
+#printsTab, #usersTab, #materialsTab{
+    width: 50%;
 }
     /*----- Tab Links -----*/
     /* Clearfix */
 ul.tab-links {
     margin-bottom: -1px;
     padding-left: 0!important;
+    padding-right: 30px!important;
 }
     .tab-links:after {
         display:block;
