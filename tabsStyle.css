@@ -5,7 +5,7 @@
     margin: 0 auto;
 }
 #printsTab, #usersTab, #materialsTab{
-    width: 50%;
+    width: 40%;
 }
     /*----- Tab Links -----*/
     /* Clearfix */
