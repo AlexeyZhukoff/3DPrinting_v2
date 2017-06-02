@@ -9,7 +9,7 @@ class SheetNames {
      const Users = 'Users';
      const Materials = 'Materials';
      const Prints = 'Prints';
-//     const Charts = 'Charts';
+     const Charts = 'Charts';
 }
 class Names {
     const NewUserName = 'newUserName';
@@ -29,6 +29,7 @@ class Commands {
     const GetPrintsHtml = 'getPrintsHtml';
     const GetUsersHtml = 'getUsersHtml';
     const GetMaterialsHtml = 'getMaterialsHtml';
+    const GetChart = 'getChart';
     const ChangeUserName = 'changeUserName';
     const ChangeMaterialName = 'changeMaterialName';
     const ChangeMaterialPrice = 'changeMaterialPrice';

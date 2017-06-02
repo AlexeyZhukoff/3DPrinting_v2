@@ -30,7 +30,14 @@
         changeMaterialDensity();
     if($type == Commands::ChangeMaterialDiameter)
         changeMaterialDiameter();
+    if($type == Commands::GetChart)
+        getChart();
 
+    function getChart(){
+        $filename = PrivateConst::File_Name;
+        $id = loadDocument($filename);
+        echo getImage($id);
+    }
     function getPrintsHtml(){
         $filename = PrivateConst::File_Name;
         $sheetName = SheetNames::Prints;
@@ -238,6 +245,31 @@
         return $result;
     }
         
+    function getImage($id){
+        $request = getPictureBytes($id);
+        if($request['status'] == 200){
+            $imgJSON = $request['data'];
+            $response = json_decode( $imgJSON, true );
+            $imgBytes = $response[0]['PictureBytes'];
+            return 'data:image/jpeg;base64,'.$imgBytes;
+            //return '<img id="chartImage" src="data:image/jpeg;base64,'.$imgBytes.'" />';
+        }
+        return '<span>Sorry, we has problem on service. But we know about it.</span>';
+    }
+    function getPictureBytes($id) {
+        $params = array(
+            'id' => $id,
+            'sheetname' => SheetNames::Charts,
+            'picturetype' => 'Chart',
+            'startrowindex' => 0,
+            'startcolumnindex' => 0,
+            'endrowindex' => 19,
+            'endcolumnindex' => 7,
+            'objectindex' => 0,
+            'scale' => 0.19
+        );
+        return get( $params, '/getpictures' );
+    }
     function searchCells($sheetName, $text, $column, $row, $matchCase, $id){
         $params = array(
             'id' => $id,

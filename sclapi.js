@@ -5,6 +5,7 @@ $(document).ready(function () {
     loadUsers();
     loadMaterials();
     loadPrints();
+
     //#region HTML Export
     function loadUsers() {
         $.get('sclapi.php', { type: 'getUsersHtml' }, onAjaxSuccess);
@@ -25,8 +26,20 @@ $(document).ready(function () {
             $('.addUserButton').attr("style", "");
             $('.addMaterialButton').attr("style", "");
             $('.addPrintButton').attr("style", "");
+            loadChart();
         }
     }
+    function loadChart() {
+        $.get('sclapi.php', { type: 'getChart' }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            $("#chartImage").attr('src', data);
+            $("#chartImage").attr('style', '');
+            if ($('.tab-content').height() < $("#chartImage").height()) {
+                $('.tab-content').height($("#chartImage").height());
+            }
+        }
+    }
+
     //#endregion HTML Export
 
     //#region PrintsList
