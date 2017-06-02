@@ -122,6 +122,7 @@ $(document).ready(function () {
             document.getElementById("printsList").innerHTML = data;
         }
         loadUsers();
+        loadChart();
         HideNewPrintingDialog();
     }
     function ShowNewPrintingDialog() {
@@ -237,6 +238,7 @@ $(document).ready(function () {
         $.get('sclapi.php', { type: 'changeUserName', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#usersList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("usersList").innerHTML = data;
+            loadChart();
         }
     }
     function HaveUserName(username) {
