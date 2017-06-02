@@ -11,6 +11,7 @@ $(document).ready(function () {
         $.get('sclapi.php', { type: 'getUsersHtml' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("usersList").innerHTML = data;
+            loadChart();
         }
     }
     function loadMaterials() {
@@ -26,7 +27,6 @@ $(document).ready(function () {
             $('.addUserButton').attr("style", "");
             $('.addMaterialButton').attr("style", "");
             $('.addPrintButton').attr("style", "");
-            loadChart();
         }
     }
     function loadChart() {
@@ -120,9 +120,8 @@ $(document).ready(function () {
         $.get('sclapi.php', { type: 'createPrinting', newUserName: username, newMaterialName: materialname, length: length }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
+            loadUsers();
         }
-        loadUsers();
-        loadChart();
         HideNewPrintingDialog();
     }
     function ShowNewPrintingDialog() {
@@ -154,18 +153,21 @@ $(document).ready(function () {
         $.get('sclapi.php', { type: 'changePrintingUser', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#printsList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
+            loadUsers();
         }
     }
     function changePrintingMaterial(newvalue, row) {
         $.get('sclapi.php', { type: 'changePrintingMaterial', row: row, newValue: newvalue, firstEmptyRow: GetRowsCount("#printsList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
+            loadUsers();
         }
     }
     function ChangePrintingLength(newvalue, row) {
         $.get('sclapi.php', { type: 'changePrintingLength', row: row, length: newvalue, firstEmptyRow: GetRowsCount("#printsList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
+            loadUsers();
         }
     }
     //#endregion PrintsList
@@ -219,6 +221,7 @@ $(document).ready(function () {
         $.get('sclapi.php', { type: 'createUser', newUserName: username, firstEmptyRow: GetRowsCount("#usersList") - 1 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("usersList").innerHTML = data;
+            loadChart();
         }
     }
     function UsersTableClick(td, row, col) {
