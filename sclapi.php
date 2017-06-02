@@ -252,7 +252,6 @@
             $response = json_decode( $imgJSON, true );
             $imgBytes = $response[0]['PictureBytes'];
             return 'data:image/jpeg;base64,'.$imgBytes;
-            //return '<img id="chartImage" src="data:image/jpeg;base64,'.$imgBytes.'" />';
         }
         return '<span>Sorry, we has problem on service. But we know about it.</span>';
     }
@@ -266,7 +265,7 @@
             'endrowindex' => 19,
             'endcolumnindex' => 7,
             'objectindex' => 0,
-            'scale' => 0.19
+            'scale' => 0.15
         );
         return get( $params, '/getpictures' );
     }
