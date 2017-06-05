@@ -335,29 +335,6 @@
 
         return json_decode ($request)->Value;
     }
-    function delete( $params, $url ) {
-        if (empty($params))
-            return null;
-
-        $json = json_encode($params);
-
-        $header = generate_header();
-
-        $request = curl_init();
-        curl_setopt_array($request, [
-            CURLOPT_URL => PrivateConst::Base_Url.$url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => $header,
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_POSTFIELDS => $json
-        ]);
-        $response = curl_exec($request);
-        $info = curl_getinfo($request);
-        curl_close($request);
-
-        return array('status' => $info['http_code'], 'data' => $response);
-    }
     function put( $params, $url ) {
         if (empty($params))
             return null;
