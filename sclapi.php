@@ -2,36 +2,53 @@
     require_once('/privateconst.php');
     $type = $_GET['type'];
     
-    if($type == Commands::GetUsersHtml)
-        getUsersHtml();
-    if($type == Commands::GetMaterialsHtml)
-        getHtml(SheetNames::Materials, -1, -1);
-    if($type == Commands::GetPrintsHtml)
-        getPrintsHtml();
-    if($type == Commands::CreatePrinting)
-        createPrinting();
-    if($type == Commands::CreateUser)
-        createUser();
-    if($type == Commands::ChangePrintingLength)
-        changePrintingLength();
-    if($type == Commands::ChangePrintingUser)
-        changePrintingUser();
-    if($type == Commands::ChangePrintingMaterial)
-        changePrintingMaterial();
-    if($type == Commands::CreateMaterial)
-        createMaterial();
-    if($type == Commands::ChangeUserName)
-        changeUserName();
-    if($type == Commands::ChangeMaterialName)
-        changeMaterialName();
-    if($type == Commands::ChangeMaterialPrice)
-        changeMaterialPrice();
-    if($type == Commands::ChangeMaterialDensity)
-        changeMaterialDensity();
-    if($type == Commands::ChangeMaterialDiameter)
-        changeMaterialDiameter();
-    if($type == Commands::GetChart)
-        getChart();
+    switch ($type) {
+        case Commands::GetUsersHtml:
+            getUsersHtml();
+            break;
+        case Commands::GetMaterialsHtml:
+            getHtml(SheetNames::Materials, -1, -1);
+            break;
+        case Commands::GetPrintsHtml:
+            getPrintsHtml();
+            break;
+        case Commands::CreatePrinting:
+            createPrinting();
+            break;
+        case Commands::CreateUser:
+            createUser();
+            break;
+        case Commands::ChangePrintingLength:
+            changePrintingLength();
+            break;
+        case Commands::ChangePrintingUser:
+            changePrintingUser();
+            break;
+        case Commands::ChangePrintingMaterial:
+            changePrintingMaterial();
+            break;
+        case Commands::CreateMaterial:
+            createMaterial();
+            break;
+        case Commands::ChangeUserName:
+            changeUserName();
+            break;
+        case Commands::ChangeMaterialName:
+            changeMaterialName();
+            break;
+        case Commands::ChangeMaterialPrice:
+            changeMaterialPrice();
+            break;
+        case Commands::ChangeMaterialDensity:
+            changeMaterialDensity();
+            break;
+        case Commands::ChangeMaterialDiameter:
+            changeMaterialDiameter();
+            break;
+        case Commands::GetChart:
+            getChart();
+            break;
+    }
 
     function getChart(){
         $filename = PrivateConst::File_Name;
