@@ -134,12 +134,16 @@ $(document).ready(function () {
     }
     function CreatePrintingHtml(username, materialname, length) {
         var tbody = $("#printsList").find("tbody")[0];
-        var copiedTr = tbody.children[tbody.rows.length - 1];
-        tbody.insertRow(tbody.rows.length).outerHTML = copiedTr.outerHTML;
-        tbody.children[tbody.rows.length - 1].children[0].innerText = username;
-        tbody.children[tbody.rows.length - 1].children[1].innerText = materialname;
-        tbody.children[tbody.rows.length - 1].children[2].innerText = length;
-        tbody.children[tbody.rows.length - 1].children[3].innerText = '';
+        var outerHTML = '<tr><td></td><td></td><td></td><td></td></tr>';
+        if (tbody.rows.length > 2)
+            outerHTML = tbody.children[tbody.rows.length - 1].outerHTML;
+        tbody.insertRow(tbody.rows.length).outerHTML = outerHTML;
+
+        var newRow = tbody.children[tbody.rows.length - 1];
+        newRow.children[0].innerText = username;
+        newRow.children[1].innerText = materialname;
+        newRow.children[2].innerText = length;
+        newRow.children[3].innerText = 'calculating';
     }
     function ShowNewPrintingDialog() {
         $('#newPrintingDialog').attr("style", "");
@@ -244,10 +248,14 @@ $(document).ready(function () {
     }
     function CreateUserHtml(username) {
         var tbody = $("#usersList").find("tbody")[0];
-        var copiedTr = tbody.children[tbody.rows.length - 1];
-        tbody.insertRow(tbody.rows.length).outerHTML = copiedTr.outerHTML;
-        tbody.children[tbody.rows.length - 1].children[0].innerText = username;
-        tbody.children[tbody.rows.length - 1].children[1].innerText = 0;
+        var outerHTML = '<tr><td></td><td></td></tr>';
+        if (tbody.rows.length > 2)
+            outerHTML = tbody.children[tbody.rows.length - 1].outerHTML;
+        tbody.insertRow(tbody.rows.length).outerHTML = outerHTML;
+
+        var newRow = tbody.children[tbody.rows.length - 1];
+        newRow.children[0].innerText = username;
+        newRow.children[1].innerText = 0;
     }
     function UsersTableClick(td, row, col) {
         CreateInnerInput(td, "changeUserVal", row, col);
@@ -408,10 +416,12 @@ $(document).ready(function () {
         if (tbody.rows.length > 2)
             outerHTML = tbody.children[2].outerHTML;
         tbody.insertRow(2).outerHTML = outerHTML;
-        tbody.children[2].children[0].innerText = materialname;
-        tbody.children[2].children[1].innerText = materialdensity;
-        tbody.children[2].children[2].innerText = materialdiameter;
-        tbody.children[2].children[3].innerText = materialprice;
+
+        var newRow = tbody.children[2];
+        newRow.children[0].innerText = materialname;
+        newRow.children[1].innerText = materialdensity;
+        newRow.children[2].innerText = materialdiameter;
+        newRow.children[3].innerText = materialprice;
     }
     function MaterialsTableClick(td, row, col) {
         CreateInnerInput(td, "changeMaterialsVal", row, col);
