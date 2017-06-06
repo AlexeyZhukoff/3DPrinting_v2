@@ -228,11 +228,19 @@ $(document).ready(function () {
         HideNewUserDialog();
         if (!username || 0 === username.length)
             return;
-        $.get('sclapi.php', { type: 'createUser', newUserName: username, firstEmptyRow: GetRowsCount("#usersList") - 1 }, onAjaxSuccess);
+        CreateUserHtml(username);
+        $.get('sclapi.php', { type: 'createUser', newUserName: username, firstEmptyRow: GetRowsCount("#usersList") - 2 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("usersList").innerHTML = data;
             loadChart();
         }
+    }
+    function CreateUserHtml(username) {
+        var tbody = $("#usersList").find("tbody")[0];
+        var copiedTr = tbody.children[tbody.rows.length - 1];
+        tbody.insertRow(tbody.rows.length).outerHTML = copiedTr.outerHTML;
+        tbody.children[tbody.rows.length - 1].children[0].innerText = username;
+        tbody.children[tbody.rows.length - 1].children[1].innerText = 0;
     }
     function UsersTableClick(td, row, col) {
         CreateInnerInput(td, "changeUserVal", row, col);
@@ -290,35 +298,7 @@ $(document).ready(function () {
         ShowNewMaterialDialog();
     })
     $('body').on('click', '.createMButton', function () {
-        var materialname = $('#newMaterialName').val();
-        var materialprice = $('#newMaterialPrice').val();
-        var materialdensity = $('#newMaterialDensity').val();
-        var materialdiameter = $('#newMaterialDiameter').val();
-        if (materialdiameter == "" || isNaN(materialdiameter)) {
-            alert('Sorry, "Material diameter" must be a number!');
-            return;
-        }
-        if (materialdensity == "" || isNaN(materialdensity)) {
-            alert('Sorry, "Material density" must be a number!');
-            return;
-        }
-        if (materialprice == "" || isNaN(materialprice)) {
-            alert('Sorry, "Material price" must be a number!');
-            return;
-        }
-        if (!materialname || 0 === materialname.length) {
-            alert('Sorry, "Material name" must be a not empty!');
-            return;
-        }
-        if (HaveMaterialName(materialname)) {
-            alert('Material with this name already exists!');
-            return;
-        }
-        HideNewMaterialDialog();
-        $.get('sclapi.php', { type: 'createMaterial', newMaterialName: materialname, newMaterialPrice: materialprice, newMaterialDensity: materialdensity, newMaterialDiameter: materialdiameter, firstEmptyRow: GetRowsCount("#materials") - 1 }, onAjaxSuccess);
-        function onAjaxSuccess(data) {
-            document.getElementById("materials").innerHTML = data;
-        }
+        CreateMaterial();
     })
     $('body').on('click', '.cancelMButton', function () {
         HideNewMaterialDialog();
@@ -383,6 +363,47 @@ $(document).ready(function () {
             $('.createMButton').click();
         }
     })
+    function CreateMaterial() {
+        var materialname = $('#newMaterialName').val();
+        var materialprice = $('#newMaterialPrice').val();
+        var materialdensity = $('#newMaterialDensity').val();
+        var materialdiameter = $('#newMaterialDiameter').val();
+        if (materialdiameter == "" || isNaN(materialdiameter)) {
+            alert('Sorry, "Material diameter" must be a number!');
+            return;
+        }
+        if (materialdensity == "" || isNaN(materialdensity)) {
+            alert('Sorry, "Material density" must be a number!');
+            return;
+        }
+        if (materialprice == "" || isNaN(materialprice)) {
+            alert('Sorry, "Material price" must be a number!');
+            return;
+        }
+        if (!materialname || 0 === materialname.length) {
+            alert('Sorry, "Material name" must be a not empty!');
+            return;
+        }
+        if (HaveMaterialName(materialname)) {
+            alert('Material with this name already exists!');
+            return;
+        }
+        HideNewMaterialDialog();
+        CreateMaterialHtml(materialname, materialprice, materialdensity, materialdiameter);
+        $.get('sclapi.php', { type: 'createMaterial', newMaterialName: materialname, newMaterialPrice: materialprice, newMaterialDensity: materialdensity, newMaterialDiameter: materialdiameter }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            document.getElementById("materials").innerHTML = data;
+        }
+    }
+    function CreateMaterialHtml(materialname, materialprice, materialdensity, materialdiameter) {
+        var tbody = $("#materials").find("tbody")[0];
+        var copiedTr = tbody.children[2];
+        tbody.insertRow(2).outerHTML = copiedTr.outerHTML;
+        tbody.children[2].children[0].innerText = materialname;
+        tbody.children[2].children[1].innerText = materialdensity;
+        tbody.children[2].children[2].innerText = materialdiameter;
+        tbody.children[2].children[3].innerText = materialprice;
+    }
     function MaterialsTableClick(td, row, col) {
         CreateInnerInput(td, "changeMaterialsVal", row, col);
         HideNewMaterialDialog();
