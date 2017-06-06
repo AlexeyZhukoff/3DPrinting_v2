@@ -299,7 +299,7 @@
             'endrowindex' => 19,
             'endcolumnindex' => 7,
             'objectindex' => 0,
-            'scale' => 0.2
+            'scale' => 0.3
         );
         return get( $params, '/getpictures' );
     }

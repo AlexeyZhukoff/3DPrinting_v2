@@ -30,9 +30,6 @@ $(document).ready(function () {
         function onAjaxSuccess(data) {
             $("#chartImage").attr('src', data);
             $("#chartImage").attr('style', '');
-            if ($('.tab-content').height() < $("#chartImage").height()) {
-                $('.tab-content').height($("#chartImage").height());
-            }
         }
     }
     function loadDocument() {
@@ -127,12 +124,22 @@ $(document).ready(function () {
             alert('Please create "Material" to may select!');
             return;
         }
-        $.get('sclapi.php', { type: 'createPrinting', newUserName: username, newMaterialName: materialname, length: length }, onAjaxSuccess);
+        CreatePrintingHtml(username, materialname, length);
+        $.get('sclapi.php', { type: 'createPrinting', newUserName: username, newMaterialName: materialname, length: length, firstEmptyRow: GetRowsCount("#printsList") - 2 }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             document.getElementById("printsList").innerHTML = data;
             loadUsers();
         }
         HideNewPrintingDialog();
+    }
+    function CreatePrintingHtml(username, materialname, length) {
+        var tbody = $("#printsList").find("tbody")[0];
+        var copiedTr = tbody.children[tbody.rows.length - 1];
+        tbody.insertRow(tbody.rows.length).outerHTML = copiedTr.outerHTML;
+        tbody.children[tbody.rows.length - 1].children[0].innerText = username;
+        tbody.children[tbody.rows.length - 1].children[1].innerText = materialname;
+        tbody.children[tbody.rows.length - 1].children[2].innerText = length;
+        tbody.children[tbody.rows.length - 1].children[3].innerText = '';
     }
     function ShowNewPrintingDialog() {
         $('#newPrintingDialog').attr("style", "");
