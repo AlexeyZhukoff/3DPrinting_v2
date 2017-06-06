@@ -3,6 +3,9 @@
     $type = $_GET['type'];
     
     switch ($type) {
+        case 'getDocument':
+            getDocument();
+            break;
         case Commands::GetUsersHtml:
             getUsersHtml();
             break;
@@ -50,6 +53,23 @@
             break;
     }
 
+    function getDocument(){
+        $filename = PrivateConst::File_Name;
+        $id = loadDocument($filename);
+        $printsFirstEmptyRow = $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
+        $usersFirstEmptyRow = findFirstEmptyRow($id, SheetNames::Users, 0);
+        $printsHtml = getSessionHtml($id, SheetNames::Prints, $printsFirstEmptyRow - 1, 3);
+        $usersHtml = getSessionHtml($id, SheetNames::Users, $usersFirstEmptyRow - 1, 1);
+        $materialsHtml = getSessionHtml($id, SheetNames::Materials, -1, -1);
+        //$chartsBytes = getImage($id);
+        $result = array(
+        'Prints' => $printsHtml['data'],
+        'Users' => $usersHtml['data'],
+        'Materials' => $materialsHtml['data'],
+        //'Charts' => $chartsBytes,
+        );
+        echo json_encode($result);
+    }
     function getChart(){
         $filename = PrivateConst::File_Name;
         $id = loadDocument($filename);
@@ -66,7 +86,6 @@
         if($result['status'] == 200){
             echo $result['data'];
         }
-            //closeDocument($filename, $id);
     }
     function getUsersHtml(){
         $filename = PrivateConst::File_Name;
@@ -78,7 +97,6 @@
         if($result['status'] == 200){
             echo $result['data'];
         }
-            //closeDocument($filename, $id);
     }
     function getHtml($sheetName, $rowLimit, $columnLimit){
         $filename = PrivateConst::File_Name;
@@ -87,7 +105,6 @@
         if($result['status'] == 200){
             echo $result['data'];
         }
-            //closeDocument($filename, $id);
     }
     function getSessionHtml($id, $sheetName, $rowLimit, $columnLimit){
         $params = array(

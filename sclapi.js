@@ -1,10 +1,6 @@
 $(document).ready(function () {
-    $('.addUserButton').attr("style", "display: none");
-    $('.addMaterialButton').attr("style", "display: none");
-    $('.addPrintButton').attr("style", "display: none");
-    loadUsers();
-    loadMaterials();
-    loadPrints();
+    loadDocument();
+    loadChart();
 
     //#region HTML Export
     function loadUsers() {
@@ -39,7 +35,21 @@ $(document).ready(function () {
             }
         }
     }
-
+    function loadDocument() {
+        $('.addUserButton').attr("style", "display: none");
+        $('.addMaterialButton').attr("style", "display: none");
+        $('.addPrintButton').attr("style", "display: none");
+        $.get('sclapi.php', { type: 'getDocument' }, onAjaxSuccess);
+        function onAjaxSuccess(data) {
+            var dataArr = $.parseJSON(data);
+            document.getElementById("printsList").innerHTML = dataArr['Prints'];
+            document.getElementById("usersList").innerHTML = dataArr['Users'];
+            document.getElementById("materials").innerHTML = dataArr['Materials'];
+            $('.addUserButton').attr("style", "");
+            $('.addMaterialButton').attr("style", "");
+            $('.addPrintButton').attr("style", "");
+        }
+    }
     //#endregion HTML Export
 
     //#region PrintsList
