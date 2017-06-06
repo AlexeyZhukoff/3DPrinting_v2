@@ -404,8 +404,10 @@ $(document).ready(function () {
     }
     function CreateMaterialHtml(materialname, materialprice, materialdensity, materialdiameter) {
         var tbody = $("#materials").find("tbody")[0];
-        var copiedTr = tbody.children[2];
-        tbody.insertRow(2).outerHTML = copiedTr.outerHTML;
+        var outerHTML = '<tr><td></td><td></td><td></td><td></td></tr>';
+        if (tbody.rows.length > 2)
+            outerHTML = tbody.children[2].outerHTML;
+        tbody.insertRow(2).outerHTML = outerHTML;
         tbody.children[2].children[0].innerText = materialname;
         tbody.children[2].children[1].innerText = materialdensity;
         tbody.children[2].children[2].innerText = materialdiameter;

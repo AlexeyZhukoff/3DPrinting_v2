@@ -329,7 +329,7 @@
             'sheetname' => $sheetName,
             'startindex' => $row,
             'count' => 1,
-            'formatmode' => "FormatAsPrevious",
+            'formatmode' => "FormatAsNext",
         );
         return put($params, "/insertrows");
     }
