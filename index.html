@@ -10,7 +10,7 @@
         <title>3D Printing application</title>
     </head>
     <body>
-        <h1>3D Printing application by SpreadsheetCloudAPI</h1>
+        <h1>3D Printing Price</h1>
         <div class="tabs">
             <ul class="tab-links">
                 <li class="active"><a class="printsA" href="#printsTab">Prints</a></li>
@@ -23,8 +23,8 @@
                     <div id="printsList"></div>
                     <div id="newPrintingDialog" style="display: none">
                         <span class="dialogText">User Name: </span><select id="printingUser"></select><br />
-                        <span class="dialogText">Material Name: </span><select id="usedMaterial"></select><br />
-                        <span class="dialogText">Length(Meters): </span><input id="materialLength" type="text"/><br />
+                        <span class="dialogText">Material: </span><select id="usedMaterial"></select><br />
+                        <span class="dialogText">Length (meters): </span><input id="materialLength" type="text"/><br />
                         <button class="cancelPButton sclapiButton">Cancel</button><button class="createPButton sclapiButton">Add</button>
                     </div>
                     <br />
@@ -43,8 +43,8 @@
                     <div id="materials"></div>
                     <div id="newMaterialDialog" style="display: none">
                         <span class="dialogText">Name: </span><input id="newMaterialName" type="text"/><br />
-                        <span class="dialogText">Density: </span><input id="newMaterialDensity" type="text"/><br />
-                        <span class="dialogText">Diameter: </span><input id="newMaterialDiameter" type="text"/><br />
+                        <span class="dialogText">Density (g/sm^3): </span><input id="newMaterialDensity" type="text"/><br />
+                        <span class="dialogText">Diameter (millimeters): </span><input id="newMaterialDiameter" type="text"/><br />
                         <span class="dialogText">Cost: </span><input id="newMaterialPrice" type="text"/><br />
                         <button class="cancelMButton sclapiButton">Cancel</button><button class="createMButton sclapiButton">Add</button>
                     </div>
