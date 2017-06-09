@@ -39,9 +39,9 @@ $(document).ready(function () {
         $.get('sclapi.php', { type: 'getDocument' }, onAjaxSuccess);
         function onAjaxSuccess(data) {
             var dataArr = $.parseJSON(data);
-            document.getElementById("printsList").innerHTML = dataArr['Prints'];
-            document.getElementById("usersList").innerHTML = dataArr['Users'];
-            document.getElementById("materials").innerHTML = dataArr['Materials'];
+            document.getElementById("printsList").innerHTML = dataArr.Prints;
+            document.getElementById("usersList").innerHTML = dataArr.Users;
+            document.getElementById("materials").innerHTML = dataArr.Materials;
             $('.addUserButton').attr("style", "");
             $('.addMaterialButton').attr("style", "");
             $('.addPrintButton').attr("style", "");
