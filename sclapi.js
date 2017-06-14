@@ -166,7 +166,7 @@ $(document).ready(function () {
             CreateInnerSelector(td, "changePrintingMaterial", row, col, GetMaterialsOptions());
         }
         if (col == 2) {
-            CreateInnerInput(td, "changePrintsVal", row, col);
+            CreateInnerInput(td, "changePrintsVal", row, col, '');
         }
         HideNewPrintingDialog();
     }
@@ -258,7 +258,7 @@ $(document).ready(function () {
         newRow.children[1].innerText = 0;
     }
     function UsersTableClick(td, row, col) {
-        CreateInnerInput(td, "changeUserVal", row, col);
+        CreateInnerInput(td, "changeUserVal", row, col, '');
         HideNewUserDialog();
     }
     function ShowNewUserDialog() {
@@ -354,8 +354,12 @@ $(document).ready(function () {
     })
     $('body').on('blur', '.changeMaterialsVal', function () {
         var oldvalue = $(this).attr('oldvalue');
+        var col = $(this).data('column');
         var td = $(this).parent();
         $(this).remove();
+        if (col == 3) {
+            oldvalue = '$' + oldvalue;
+        }
         td.text(oldvalue);
     })
     $('#newMaterialName').keyup(function (e) {
@@ -424,7 +428,12 @@ $(document).ready(function () {
         newRow.children[3].innerText = materialprice;
     }
     function MaterialsTableClick(td, row, col) {
-        CreateInnerInput(td, "changeMaterialsVal", row, col);
+        var value = '';
+        if (col == 3) {
+            value = td.text();
+            value = value.replace('$', '');
+        }
+        CreateInnerInput(td, "changeMaterialsVal", row, col, value);
         HideNewMaterialDialog();
     }
     function ChangeMaterialName(row, newvalue) {
@@ -522,10 +531,13 @@ $(document).ready(function () {
                 PrintsTableClick($(this), row - 1, col);
         }
     })
-    function CreateInnerInput(td, name, row, col) {
+    function CreateInnerInput(td, name, row, col, value) {
+        if (!value || 0 === value.length) {
+            value = td.text();
+        }
         var width = $(td).width() - 5;
         var height = $(td).parent().height() - 8;
-        var input = '<input class="' + name + '" name="' + name + '" value="' + td.text() + '" oldvalue="' + td.text() + '" style="width:' + parseInt(width) + 'px; height: ' + parseInt(height) + 'px; " type="text" data-row="' + row + '" data-column="' + col + '" />';
+        var input = '<input class="' + name + '" name="' + name + '" value="' + value + '" oldvalue="' + value + '" style="width:' + parseInt(width) + 'px; height: ' + parseInt(height) + 'px; " type="text" data-row="' + row + '" data-column="' + col + '" />';
         $(td).html('');
         $(td).append($(input));
         $(td).find('input').focus();
