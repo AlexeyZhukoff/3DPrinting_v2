@@ -143,9 +143,9 @@
         setCellValue(SheetNames::Prints, $firstEmptyRow, 2, $filename, floatval($length), $id);
         $result = getSessionHtml($id, SheetNames::Prints, $firstEmptyRow, 3);
         if($result['status'] == 200){
-            echo $result['data'];
-        }
             closeDocument($filename, $id);
+        }
+        echo $result['data'];
     }
     function changePrintingLength(){
         $filename = PrivateConst::File_Name;
@@ -157,9 +157,9 @@
         $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
         if($result['status'] == 200){
-            echo $result['data'];
-        }
             closeDocument($filename, $id);
+        }
+        echo $result['data'];    
     }
     function changePrintingUser(){
         $filename = PrivateConst::File_Name;
@@ -171,9 +171,9 @@
         $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
         if($result['status'] == 200){
-            echo $result['data'];
-        }
             closeDocument($filename, $id);
+        }
+        echo $result['data'];
     }
     function changePrintingMaterial(){
         $filename = PrivateConst::File_Name;
@@ -185,9 +185,9 @@
         $firstEmptyRow = findFirstEmptyRow($id, SheetNames::Prints, 0);
         $result = getSessionHtml($id, SheetNames::Prints, --$firstEmptyRow, 3);
         if($result['status'] == 200){
-            echo $result['data'];
-        }
             closeDocument($filename, $id);
+        }
+        echo $result['data'];
     }
 
     function createUser(){
@@ -198,9 +198,9 @@
         setCellValue(SheetNames::Users, $firstEmptyRow, 0, $filename, $userName, $id);
         $result = getSessionHtml($id, SheetNames::Users, $firstEmptyRow, 1);
         if($result['status'] == 200){
-            echo $result['data'];
-        }
             closeDocument($filename, $id);
+        }
+        echo $result['data'];
     }
     function changeUserName(){
         $filename = PrivateConst::File_Name;
@@ -253,8 +253,9 @@
             setCellValue(SheetNames::Prints, $cell ->RowIndex, 1, $filename, $value, $id);
         }
         $result = getSessionHtml($id, SheetNames::Materials, -1, -1);
-        closeDocument($filename, $id);
-
+        if($result['status'] == 200){
+            closeDocument($filename, $id);
+        }
         echo $result['data'];
     }
     function changeMaterialDensity(){
@@ -274,9 +275,10 @@
         $id = loadDocument($filename);
         setCellValue(SheetNames::Materials, $row, $column, $filename, floatval($value), $id);
         $result = getSessionHtml($id, SheetNames::Materials, -1, -1);
-        closeDocument($filename, $id);
-        
-        return $result['data'];
+        if($result['status'] == 200){
+            closeDocument($filename, $id);
+        }
+        echo $result['data'];
     }
         
     function getImage($id){
