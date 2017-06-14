@@ -255,7 +255,7 @@
         $result = getSessionHtml($id, SheetNames::Materials, -1, -1);
         closeDocument($filename, $id);
 
-        echo $result;
+        echo $result['data'];
     }
     function changeMaterialDensity(){
         echo changeMaterialValue(1);
