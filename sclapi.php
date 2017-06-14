@@ -275,8 +275,8 @@
         setCellValue(SheetNames::Materials, $row, $column, $filename, floatval($value), $id);
         $result = getSessionHtml($id, SheetNames::Materials, -1, -1);
         closeDocument($filename, $id);
-
-        return $result;
+        
+        return $result['data'];
     }
         
     function getImage($id){
