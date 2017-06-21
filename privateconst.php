@@ -1,8 +1,9 @@
 <?php
 class PrivateConst {
      const Base_Url = 'http://spreadsheetcloudapi.azurewebsites.net/api/spreadsheet';
-     const API_KEY = 'your_api_key';
-     const File_Name = '3D.xlsx';
+     //const Base_Url = 'http://localhost:54306/api/spreadsheet';
+     const API_KEY = '87b1e9521ecef9e65d183b62fa157276';
+     const File_Name = '3D_v2.xlsx';
 }
 class SheetNames {
      const Users = 'Users';
@@ -28,7 +29,6 @@ class Commands {
     const GetPrintsHtml = 'getPrintsHtml';
     const GetUsersHtml = 'getUsersHtml';
     const GetMaterialsHtml = 'getMaterialsHtml';
-    const GetDocument = 'getDocument';
     const GetChart = 'getChart';
     const ChangeUserName = 'changeUserName';
     const ChangeMaterialName = 'changeMaterialName';
