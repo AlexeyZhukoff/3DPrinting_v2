@@ -3,7 +3,7 @@
     $type = $_GET['type'];
     
     switch ($type) {
-        case 'getDocument':
+        case Commands::GetDocument:
             getDocument();
             break;
         case Commands::GetUsersHtml:

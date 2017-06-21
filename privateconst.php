@@ -29,6 +29,7 @@ class Commands {
     const GetPrintsHtml = 'getPrintsHtml';
     const GetUsersHtml = 'getUsersHtml';
     const GetMaterialsHtml = 'getMaterialsHtml';
+    const GetDocument = 'getDocument';
     const GetChart = 'getChart';
     const ChangeUserName = 'changeUserName';
     const ChangeMaterialName = 'changeMaterialName';
