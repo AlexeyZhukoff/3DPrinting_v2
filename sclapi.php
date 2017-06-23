@@ -61,12 +61,10 @@
         $printsHtml = getSessionHtml($id, SheetNames::Prints, $printsFirstEmptyRow - 1, 3);
         $usersHtml = getSessionHtml($id, SheetNames::Users, $usersFirstEmptyRow - 1, 1);
         $materialsHtml = getSessionHtml($id, SheetNames::Materials, -1, -1);
-        //$chartsBytes = getImage($id);
         $result = array(
         'Prints' => $printsHtml['data'],
         'Users' => $usersHtml['data'],
         'Materials' => $materialsHtml['data'],
-        //'Charts' => $chartsBytes,
         );
         echo json_encode($result);
     }
@@ -294,7 +292,7 @@
     function getPictureBytes($id) {
         $params = array(
             'id' => $id,
-            'sheetname' => SheetNames::Charts,
+            'sheetname' => SheetNames::Chart,
             'picturetype' => 'Chart',
             'startrowindex' => 0,
             'startcolumnindex' => 0,
